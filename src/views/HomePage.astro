@@ -101,21 +101,11 @@ const projectSlots = Array.from(
 
         <ul class="mt-5 space-y-4 list-none pl-0">
           {
-            projectSlots.map((project, index) => (
+            projectSlots.map((project) => (
               <li>
                 {project ? (
-                  <ArrowCard entry={project} locale={locale} />
-                ) : (
-                  /* Reserved project slot — holds layout until content lands */
-                  <div class="rounded-lg border border-dashed border-black/15 p-4 dark:border-white/20">
-                    <div class="meta">
-                      {t(locale, "projectSlot")} {String(index + 1).padStart(2, "0")}
-                    </div>
-                    <div class="mt-3 font-semibold text-black/50 dark:text-white/50">
-                      {t(locale, "projectSlotHint")}
-                    </div>
-                  </div>
-                )}
+                  <ArrowCard entry={project} locale={locale} featured />
+                ) : null}
               </li>
             ))
           }

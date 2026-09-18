@@ -64,6 +64,16 @@ const projects = defineCollection({
     draft: z.boolean().optional(),
     demoUrl: z.string().optional(),
     repoUrl: z.string().optional(),
+    /** Compact geometric mark on cards. */
+    mark: z.enum(["export", "field", "study"]).optional(),
+    /** Monospace status token, e.g. EXPORT. */
+    status: z.string().optional(),
+    /** Homepage card atmosphere. List pages ignore this. */
+    atmosphere: z.enum(["industrial", "film"]).optional(),
+    titleJa: z.string().optional(),
+    titleEn: z.string().optional(),
+    summaryJa: z.string().optional(),
+    summaryEn: z.string().optional(),
     ...mediaFields,
   }),
 })

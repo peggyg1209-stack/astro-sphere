@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content"
 import { t } from "@i18n/ui"
 import { getLocaleFromUrl, localizePath } from "@i18n/utils"
 import { formatDate, readingTime } from "@lib/utils"
+import { localizedProjectCopy } from "@lib/project"
 
 type Props = {
   entry: CollectionEntry<"projects"> | CollectionEntry<"blog">
@@ -10,8 +11,11 @@ type Props = {
 
 const { entry } = Astro.props
 const { collection, data, body } = entry
-const { title, summary, date, cover, reserveMedia } = data
+const { date, cover, reserveMedia } = data
 const locale = getLocaleFromUrl(Astro.url)
+const copy =
+  collection === "projects" ? localizedProjectCopy(data, locale) : { title: data.title, summary: data.summary }
+const status = collection === "projects" ? data.status : undefined
 
 const demoUrl = collection === "projects" ? data.demoUrl : null
 const repoUrl = collection === "projects" ? data.repoUrl : null
@@ -65,13 +69,18 @@ const backLabel = collection === "blog" ? t(locale, "blogs") : t(locale, "projec
       </svg>
       {readingTime(body, t(locale, "minRead"))}
     </div>
+    {status && (
+      <div class="font-mono text-[0.68rem] font-medium uppercase tracking-[0.16em] text-pine dark:text-lake-light">
+        [{status}]
+      </div>
+    )}
   </div>
 
   <h1 class="text-3xl md:text-4xl font-semibold text-black dark:text-white mt-3 leading-tight">
-    {title}
+    {copy.title}
   </h1>
   <div class="mt-2 text-lg opacity-80">
-    {summary}
+    {copy.summary}
   </div>
 
   {

@@ -1,10 +1,21 @@
 ---
-title: "Project Three"
-summary: "Lorem ipsum dolor sit amet"
-date: "Mar 16 2022"
+title: "学者型跨界游学与生命探索"
+titleJa: "研究者のための越境スタディと生命の探究"
+titleEn: "Scholarly Cross-disciplinary Travel & Life Inquiry"
+summary: "以阅读与行走为方法，在庭院、书库与地平线之间校准生命尺度。"
+summaryJa: "読むことと歩くことを方法に、庭、書庫、地平線のあいだで生命の尺度を測る。"
+summaryEn: "Reading and walking as method — calibrating a life between gardens, stacks, and horizons."
+date: "Jul 01 2026"
 draft: false
+mark: study
+status: STUDY
+atmosphere: film
+cover:
+  src: /media/projects/study-film.jpg
+  alt: 雨后庭院青苔与石径的胶片静帧
 tags:
-- curated-expeditions
+  - curated-expeditions
+reserveMedia: false
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+跨学科的游学不是行程清单。它是把书页上的问题带到庭院、书库或高原地平线上，让身体重新量一次时间。

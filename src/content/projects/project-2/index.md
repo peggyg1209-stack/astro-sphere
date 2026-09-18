@@ -1,13 +1,18 @@
 ---
-title: "Project Two"
-summary: "Lorem ipsum dolor sit amet"
-date: "Mar 17 2022"
+title: "中国产学研一线走读：北上深闭门参访与生态研学"
+titleJa: "中国産学研の現場を歩く：北京・上海・深圳のクローズド視察"
+titleEn: "China Industry-Academia Walks: Closed-door Visits in PEK · SHA · SZX"
+summary: "北京、上海、深圳的实验室、车间与园区闭门走读，连接产学研现场。"
+summaryJa: "北京・上海・深圳のラボ、工場、パークを閉じた視察で歩き、産学研の現場をつなぐ。"
+summaryEn: "Closed-door walks through labs, shops, and parks in Beijing, Shanghai, and Shenzhen."
+date: "Aug 01 2026"
 draft: false
+mark: field
+status: FIELD
+atmosphere: industrial
 tags:
-- cross-border-eor
-- industrial-delegations
+  - industrial-delegations
+reserveMedia: false
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+把北上深的一线做成可带队的闭门参访：实验室、模具车间、园区走廊。记录的是现场节奏，不是展厅话术。

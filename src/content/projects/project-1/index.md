@@ -1,13 +1,20 @@
 ---
-title: "Project One"
-summary: "Lorem ipsum dolor sit amet"
-date: "Mar 18 2022"
+title: "服务中国先进制造业出海数字化与合规落地"
+titleJa: "中国先進製造の海外展開：デジタル化とコンプライアンス実装"
+titleEn: "China Advanced Manufacturing Abroad: Digitalization & Compliance"
+summary: "模具到产线的数字化出口路径，以及落地国的合规与雇佣骨架。"
+summaryJa: "金型からラインまでのデジタル輸出経路と、現地のコンプライアンス／雇用の骨格。"
+summaryEn: "A digital export path from die to line, plus the compliance and hiring skeleton on the ground."
+date: "Sep 01 2026"
 draft: false
+mark: export
+status: EXPORT
+atmosphere: industrial
 tags:
-- rapid-prototyping
-- generative-visibility
-demoUrl: https://astro-sphere-demo.vercel.app
-repoUrl: https://github.com/markhorn-dev/astro-sphere
+  - rapid-prototyping
+  - generative-visibility
+  - cross-border-eor
+reserveMedia: false
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+真实背书与产业断层在过去服务于跨境创新与产业落地平台的那段经历里，我深度接触了大量沉淀于工业一线的中国制造企业与硬科技团队。中国制造不缺扎实的公差控制、模具精度与敏捷的打样韧性；但我经常在车间与老板们的办公室里看到同一种困境：我们拥有过硬的物理造物能力，但在全球数字世界里，却几乎是“隐形”的。   过去的很多年，出海营销被简化为建一个模板站、投关键词竞价或堆砌外链。但当全球采购决策由大模型（ChatGPT、Claude、Perplexity）重塑时，这些手段迅速失效了：主流 AI 的基底语料几乎被海外本土垂直目录占满；而国内工厂的英文主页上，充满了缺乏结构化实体映射的“中式行话”，甚至严苛的防火墙误将 AI 采信爬虫直接拦截在外。海外采购工程师在向 AI 询问寻找特定公差或替代型号时，国内工厂明明具备极强的产能，却从始至终不在 AI 的推荐列表里。   制造业当前最大的出海断层，不再是产能无法交付，而是无法被外界、被 AI 精准“看见”与“采信”。   工业级 GEO 实践产品基于这一现实，我联合深耕工业垂直咨询与算法架构的工程伙伴，将服务收敛为一套针对工业出海场景的生成式引擎优化（GEO）工程体系：   海外 AI 采购引擎采信审计：通过多维度行业核心 Prompt 对主流大模型进行端到端测试，客观绘制企业在生成式搜索中的“可见性盲区”，输出直观的采信阻碍清单与修复排期。   工业实体与 RAG 可采信重构：核心的基建改造工程。全站部署底层 Schema（JSON-LD）工业语义，将深奥的材料牌号、公差参数与工艺参数结构化；打通海外工业目录的权威映射，为合规 AI 爬虫配置专属白名单通道，让冰冷的产品页变成机器秒读的确定性知识。   GEO 权威引文持续占位：面向算法更迭的常态化维护。通过母语级工业技术语料输出与高权重阵地维护，持续稳固并扩大企业在大模型答案中的推荐引用份额。   正在构建的边界与未来目前，我正在主导将这套面向制造业垂直领域的重构流程转化为轻量化的自动化分析平台，让工业品出海的语义对齐更高效、更具确定性。纯粹的代码和算法从来不是出海的全部。真正构成我服务壁垒的，是“线上数字资产重构”与“线下跨境供应链、现地渠道及实体落地”的双向闭环。让 AI 成为引流的精准触手，而由我们深扎在地的一线产业网络承接真金白银的商务履约。

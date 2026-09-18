@@ -44,7 +44,7 @@ export default function SearchCollection({ entry_name, data, topics, locale = "z
   const [descending, setDescending] = createSignal(false);
 
   const fuse = new Fuse(coerced, {
-    keys: ["slug", "data.title", "data.summary", "data.tags"],
+    keys: ["slug", "data.title", "data.titleJa", "data.titleEn", "data.summary", "data.summaryJa", "data.summaryEn", "data.tags"],
     includeMatches: true,
     minMatchCharLength: 2,
     threshold: 0.4,

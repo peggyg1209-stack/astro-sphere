@@ -18,7 +18,7 @@ export default function Search({ data, locale = "zh", placeholderText, foundLabe
   const [results, setResults] = createSignal<CollectionEntry<"blog">[]>([])
 
   const fuse = new Fuse(data, {
-    keys: ["slug", "data.title", "data.summary", "data.tags"],
+    keys: ["slug", "data.title", "data.titleJa", "data.titleEn", "data.summary", "data.summaryJa", "data.summaryEn", "data.tags"],
     includeMatches: true,
     minMatchCharLength: 2,
     threshold: 0.4,

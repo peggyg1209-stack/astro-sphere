@@ -6,16 +6,19 @@ import BottomLayout from "@layouts/BottomLayout.astro"
 import ArticleTopLayout from "@layouts/ArticleTopLayout.astro"
 import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro"
 import ContactSection from "@components/ContactSection.astro"
+import { localizedProjectCopy } from "@lib/project"
+import { getLocaleFromUrl } from "@i18n/utils"
 
 type Props = {
   project: CollectionEntry<"projects">
 }
 
 const { project } = Astro.props
-const { title, summary } = project.data
+const locale = getLocaleFromUrl(Astro.url)
+const copy = localizedProjectCopy(project.data, locale)
 ---
 
-<PageLayout title={title} description={summary}>
+<PageLayout title={copy.title} description={copy.summary}>
   <TopLayout>
     <div class="animate">
       <ArticleTopLayout entry={project} />
