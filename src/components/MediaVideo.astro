@@ -1,0 +1,55 @@
+---
+import type { MediaVideo } from "../content/config"
+import { t } from "@i18n/ui"
+import { getLocaleFromUrl } from "@i18n/utils"
+
+type Props = {
+  clips?: MediaVideo[]
+  reserve?: boolean
+  slots?: number
+}
+
+const { clips = [], reserve = false, slots = 1 } = Astro.props
+const locale = getLocaleFromUrl(Astro.url)
+const cells: Array<MediaVideo | null> = clips.length > 0
+  ? clips
+  : reserve
+    ? Array.from({ length: slots }, () => null)
+    : []
+---
+
+{
+  cells.length > 0 && (
+    <div class="space-y-4">
+      {cells.map((clip) =>
+        clip ? (
+          <figure class="media-slot is-filled edge-glow">
+            <span class="media-slot-label">{t(locale, "mediaVideo")}</span>
+            <video
+              class="m-0 block aspect-video w-full bg-black/5 object-cover p-0 dark:bg-white/5"
+              controls
+              preload="metadata"
+              poster={clip.poster}
+              src={clip.src}
+              title={clip.title}
+            >
+              {t(locale, "mediaUnsupported")}
+            </video>
+            {clip.caption && (
+              <figcaption class="meta normal-case border-t border-black/10 px-3 py-2 dark:border-white/15">
+                {clip.caption}
+              </figcaption>
+            )}
+          </figure>
+        ) : (
+          <div class="media-slot aspect-video">
+            <span class="media-slot-label">{t(locale, "mediaVideo")}</span>
+            <div class="media-slot-empty">
+              <span class="meta">{t(locale, "mediaVideoReserved")}</span>
+            </div>
+          </div>
+        ),
+      )}
+    </div>
+  )
+}

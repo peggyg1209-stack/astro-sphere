@@ -73,9 +73,6 @@ const alternateOgLocales = LOCALES.filter((item) => item !== locale).map(
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
 
-<!-- RSS Feed -->
-<link rel="alternate" type="application/rss+xml" title={title} href={new URL("rss.xml", Astro.site ?? Astro.url).href} />
-
 <!-- Global Scripts -->
 <script is:inline src="/js/theme.js"></script>
 <script is:inline src="/js/scroll.js"></script>

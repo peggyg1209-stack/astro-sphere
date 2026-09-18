@@ -7,6 +7,11 @@ tags:
 - Tutorial
 - Astro
 - Astro Sphere
+# i18n: fill when copy is ready. JA/EN body → src/i18n/blog-bodies/02-astro-sphere-getting-started.{ja,en}.md
+# titleJa:
+# titleEn:
+# summaryJa:
+# summaryEn:
 ---
 
 Astro Sphere is designed to be configurable. This article will cover the basics on

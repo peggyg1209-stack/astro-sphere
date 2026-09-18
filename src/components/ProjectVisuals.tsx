@@ -63,7 +63,7 @@ function StudyGlyph() {
 export function IndustrialGround(props: { kind: "export" | "field" }): JSX.Element {
   return (
     <svg
-      class="absolute inset-0 h-full w-full"
+      class="absolute inset-0 h-full w-full opacity-[0.34] dark:opacity-100"
       viewBox="0 0 900 280"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"

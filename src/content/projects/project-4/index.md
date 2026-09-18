@@ -6,7 +6,7 @@ draft: true
 tags:
 - opc-incubation
 # Reserved media slots. `reserveMedia` draws dashed placeholders for the cover,
-# audio and gallery slots so the layout is visible before assets exist.
+# gallery, video and audio slots so the layout is visible before assets exist.
 # Replace it with real entries when you have them, e.g.
 #   cover:
 #     src: /media/projects/project-4/cover.jpg

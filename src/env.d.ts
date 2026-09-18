@@ -1,6 +1,11 @@
 /// <reference path="../.astro/types.d.ts" />
 /// <reference types="astro/client" />
 
+declare module "*?raw" {
+  const content: string
+  export default content
+}
+
 interface ImportMetaEnv {
   /**
    * Relay endpoint that forwards consultation enquiries into the Lark Bitable.

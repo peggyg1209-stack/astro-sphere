@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content"
 import AudioPlayer from "@components/AudioPlayer.astro"
 import MediaGallery from "@components/MediaGallery.astro"
+import MediaVideo from "@components/MediaVideo.astro"
 import { t } from "@i18n/ui"
 import { getLocaleFromUrl } from "@i18n/utils"
 
@@ -10,16 +11,21 @@ type Props = {
 }
 
 const { entry } = Astro.props
-const { audio, gallery, reserveMedia } = entry.data
+const { audio, gallery, video, reserveMedia } = entry.data
 const locale = getLocaleFromUrl(Astro.url)
-const show = reserveMedia || audio.length > 0 || gallery.length > 0
+const show =
+  reserveMedia || audio.length > 0 || gallery.length > 0 || video.length > 0
 ---
 
 {
   show && (
-    <section class="mt-12 space-y-4" aria-label={`${t(locale, "mediaAudio")} / ${t(locale, "mediaGallery")}`}>
-      <AudioPlayer tracks={audio} reserve={reserveMedia} />
+    <section
+      class="mt-12 space-y-4"
+      aria-label={`${t(locale, "mediaGallery")} / ${t(locale, "mediaVideo")} / ${t(locale, "mediaAudio")}`}
+    >
       <MediaGallery images={gallery} reserve={reserveMedia} slots={2} />
+      <MediaVideo clips={video} reserve={reserveMedia} slots={1} />
+      <AudioPlayer tracks={audio} reserve={reserveMedia} />
     </section>
   )
 }

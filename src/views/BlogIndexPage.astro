@@ -29,9 +29,6 @@ const estimated_initial_size = 28 + posts.length * 158 + (posts.length - 1) * 12
     about: BLOG_TOPICS.map((topic) => ({
       "@type": "DefinedTerm",
       name: topic.label[locale],
-      alternateName: [topic.label.zh, topic.label.ja, topic.label.en].filter(
-        (name, index, list) => list.indexOf(name) === index && name !== topic.label[locale],
-      ),
       identifier: topic.id,
       inDefinedTermSet: "Peggy Gao Blog Topics",
     })),

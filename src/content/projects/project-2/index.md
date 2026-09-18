@@ -1,10 +1,10 @@
 ---
 title: "中国产学研一线走读：北上深闭门参访与生态研学"
-titleJa: "中国産学研の現場を歩く：北京・上海・深圳のクローズド視察"
-titleEn: "China Industry-Academia Walks: Closed-door Visits in PEK · SHA · SZX"
+titleJa: "中国産学研の現場を歩く：北京・上海・深圳の非公開視察とエコシステム研学"
+titleEn: "Walking China's Industry–Academia Front Line: Closed-door Visits and Ecosystem Study in Beijing, Shanghai, and Shenzhen"
 summary: "北京、上海、深圳的实验室、车间、园区与企业间闭门走读，连接产学研现场。"
-summaryJa: "北京・上海・深圳のラボ、工場、パークを閉じた視察で歩き、産学研の現場をつなぐ。"
-summaryEn: "Closed-door walks through labs, shops, and parks in Beijing, Shanghai, and Shenzhen."
+summaryJa: "北京・上海・深圳の研究室、工場、産業パーク、企業を非公開で歩き、産学研の現場をつなぐ。"
+summaryEn: "Closed-door walks through laboratories, workshops, industrial parks, and companies in Beijing, Shanghai, and Shenzhen — connecting industry, academia, and research on the ground."
 date: "Aug 01 2026"
 draft: false
 mark: field
@@ -12,7 +12,8 @@ status: FIELD
 atmosphere: industrial
 tags:
   - industrial-delegations
-reserveMedia: false
+# Cover / gallery / video / audio can be filled later; empty slots stay reserved.
+reserveMedia: true
 ---
 
 ## 破除滤镜的现场主义

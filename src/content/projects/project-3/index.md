@@ -1,10 +1,10 @@
 ---
 title: "学者型跨界游学与生命探索"
-titleJa: "研究者のための越境スタディと生命の探究"
-titleEn: "Scholarly Cross-disciplinary Travel & Life Inquiry"
+titleJa: "学究的な越境遊学と生命の探究"
+titleEn: "Scholarly Cross-boundary Study Travel and Life Inquiry"
 summary: "以观阅与行走为方法，在瀚海与地平线之间校准生命尺度。"
-summaryJa: "読むことと歩くことを方法に、書庫、地平線のあいだで生命の尺度を測る。"
-summaryEn: "Reading and walking as method — calibrating a life between gardens, stacks, and horizons."
+summaryJa: "見ること・読むことと歩くことを方法に、広大な海原と地平線のあいだで生命の尺度を測る。"
+summaryEn: "By looking, reading, and walking — calibrating the scale of a life between open water and the horizon."
 date: "Jul 01 2026"
 draft: false
 mark: study
@@ -15,7 +15,8 @@ cover:
   alt: 雨后庭院青苔与石径的胶片静帧
 tags:
   - curated-expeditions
-reserveMedia: false
+# Gallery / video / audio can be filled later; empty slots stay reserved.
+reserveMedia: true
 ---
 ## 终身求索：跨越年龄边界的全球游学网络
 我们在工业与算法里求解效率，但在现实的某一隅，每个人或出于功利、或出于迷惘，都需要重新校准生命的刻度。很多时候，“出海”不仅是企业与产能向外突围的宏大叙事，更是每个个体在独属于自己“奥德赛”时期的向外舒展。<br>   

@@ -7,6 +7,11 @@ tags:
 - Tutorial
 - Astro
 - Astro Sphere
+# i18n: fill when copy is ready. JA/EN body → src/i18n/blog-bodies/01-astro-sphere-file-structure.{ja,en}.md
+# titleJa:
+# titleEn:
+# summaryJa:
+# summaryEn:
 ---
 
 A one line summary of what each file and directory is for:

@@ -26,20 +26,42 @@ const mediaAudio = z.object({
   transcript: z.string().optional(),
 })
 
+const mediaVideo = z.object({
+  /** URL under `public/`, e.g. `/media/projects/walk.mp4` */
+  src: z.string(),
+  /** Optional still shown before play. */
+  poster: z.string().optional(),
+  title: z.string().optional(),
+  caption: z.string().optional(),
+})
+
 /** Fields shared by the two content-bearing collections. */
 const mediaFields = {
   /** Lead image, rendered above the article body. */
   cover: mediaImage.optional(),
   /** Image set rendered after the article body. */
   gallery: z.array(mediaImage).default([]),
+  /** Video clips rendered after the article body. */
+  video: z.array(mediaVideo).default([]),
   /** Audio tracks rendered after the article body. */
   audio: z.array(mediaAudio).default([]),
   /**
-   * Render placeholders for whichever cover / gallery / audio slots are still
-   * empty, so every project and post has the same media rhythm whether or not
-   * the assets have landed. Set to `false` on an entry to hide empty slots.
+   * Render placeholders for whichever cover / gallery / video / audio slots
+   * are still empty, so every project and post has the same media rhythm
+   * whether or not the assets have landed. Set to `false` to hide empty slots.
    */
   reserveMedia: z.boolean().default(true),
+}
+
+const localizedCopyFields = {
+  /** Japanese title. Falls back to `title`. */
+  titleJa: z.string().optional(),
+  /** English title. Falls back to `title`. */
+  titleEn: z.string().optional(),
+  /** Japanese summary. Falls back to `summary`. */
+  summaryJa: z.string().optional(),
+  /** English summary. Falls back to `summary`. */
+  summaryEn: z.string().optional(),
 }
 
 const blog = defineCollection({
@@ -50,6 +72,7 @@ const blog = defineCollection({
     date: z.coerce.date(),
     tags: z.array(z.string()),
     draft: z.boolean().optional(),
+    ...localizedCopyFields,
     ...mediaFields,
   }),
 })
@@ -70,10 +93,7 @@ const projects = defineCollection({
     status: z.string().optional(),
     /** Homepage card atmosphere. List pages ignore this. */
     atmosphere: z.enum(["industrial", "film"]).optional(),
-    titleJa: z.string().optional(),
-    titleEn: z.string().optional(),
-    summaryJa: z.string().optional(),
-    summaryEn: z.string().optional(),
+    ...localizedCopyFields,
     ...mediaFields,
   }),
 })
@@ -90,3 +110,4 @@ export const collections = { blog, projects, legal }
 
 export type MediaImage = z.infer<typeof mediaImage>
 export type MediaAudio = z.infer<typeof mediaAudio>
+export type MediaVideo = z.infer<typeof mediaVideo>

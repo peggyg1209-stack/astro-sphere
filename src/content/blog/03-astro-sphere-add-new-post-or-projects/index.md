@@ -7,6 +7,11 @@ tags:
 - Tutorial
 - Astro
 - Astro Sphere
+# i18n: fill when copy is ready. JA/EN body → src/i18n/blog-bodies/03-astro-sphere-add-new-post-or-projects.{ja,en}.md
+# titleJa:
+# titleEn:
+# summaryJa:
+# summaryEn:
 ---
 ### Basics
 

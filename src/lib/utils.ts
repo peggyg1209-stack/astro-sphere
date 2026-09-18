@@ -14,11 +14,29 @@ export function formatDate(date: Date, locale: Locale = "en") {
   }).format(date)
 }
 
-export function readingTime(html: string, label = "min read") {
-  const textOnly = html.replace(/<[^>]+>/g, "")
-  const wordCount = textOnly.split(/\s+/).length
-  const readingTimeMinutes = ((wordCount / 200) + 1).toFixed()
-  return `${readingTimeMinutes} ${label}`
+/** CJK web reading ~400 chars/min; English ~220 wpm. Floor at 1 minute. */
+export function readingTimeMinutes(source: string): number {
+  const text = source
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`[^`]*`/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/[#>*_~-]+/g, " ")
+    .replace(/&[a-z]+;/gi, " ")
+    .trim()
+
+  const cjk = (text.match(/[\u4e00-\u9fff\u3040-\u30ff\u3400-\u4dbf]/g) || []).length
+  const latinWords = text
+    .replace(/[\u4e00-\u9fff\u3040-\u30ff\u3400-\u4dbf]/g, " ")
+    .split(/\s+/)
+    .filter((word) => /[A-Za-z0-9]/.test(word)).length
+
+  return Math.max(1, Math.round(cjk / 400 + latinWords / 220))
+}
+
+export function readingTime(source: string, label = "min read") {
+  return `${readingTimeMinutes(source)} ${label}`
 }
 
 

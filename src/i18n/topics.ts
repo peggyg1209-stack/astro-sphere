@@ -11,48 +11,48 @@ export const BLOG_TOPICS = [
   {
     id: "seo-geo",
     label: {
-      zh: "引擎优化（SEO & GEO）",
-      ja: "エンジン最適化（SEO & GEO）",
+      zh: "引擎优化",
+      ja: "エンジン最適化",
       en: "SEO & GEO",
     },
   },
   {
     id: "agile-hardware",
     label: {
-      zh: "制造与供应链（Agile Hardware & Supply Chain）",
-      ja: "製造とサプライチェーン（Agile Hardware & Supply Chain）",
+      zh: "制造与供应链",
+      ja: "製造とサプライチェーン",
       en: "Agile Hardware & Supply Chain",
     },
   },
   {
     id: "opc-solopreneur",
     label: {
-      zh: "超级个体（OPC & Solopreneurship）",
-      ja: "スーパー個体（OPC & Solopreneurship）",
+      zh: "超级个体",
+      ja: "ひとり事業",
       en: "OPC & Solopreneurship",
     },
   },
   {
     id: "cross-border-matchmaking",
     label: {
-      zh: "跨境生态与飞地（Cross-Border Matchmaking）",
-      ja: "越境エコシステムと飛び地（Cross-Border Matchmaking）",
+      zh: "跨境生态与飞地",
+      ja: "越境エコシステムと飛び地",
       en: "Cross-Border Matchmaking",
     },
   },
   {
     id: "field-studies-pek-sha-szx",
     label: {
-      zh: "北上深产研走读（Field Studies: PEK-SHA-SZX）",
-      ja: "北京・上海・深圳 産研フィールドスタディ（PEK-SHA-SZX）",
+      zh: "北上深产研走读",
+      ja: "北京・上海・深圳の産研フィールドスタディ",
       en: "Field Studies: PEK-SHA-SZX",
     },
   },
   {
     id: "lifelong-expeditions",
     label: {
-      zh: "研学与探索（Lifelong Expeditions）",
-      ja: "研学と探検（Lifelong Expeditions）",
+      zh: "研学与探索",
+      ja: "研学と探究",
       en: "Lifelong Expeditions",
     },
   },
@@ -67,8 +67,8 @@ export const BLOG_TOPICS = [
   {
     id: "culinary-craft",
     label: {
-      zh: "手作与食饮（Culinary Craft & Aesthetics）",
-      ja: "手仕事と食飲（Culinary Craft & Aesthetics）",
+      zh: "手作与食饮",
+      ja: "手仕事と食飲",
       en: "Culinary Craft & Aesthetics",
     },
   },
@@ -79,7 +79,7 @@ export const PROJECT_TOPICS = [
     id: "rapid-prototyping",
     label: {
       zh: "极速打样与小批量试产",
-      ja: "極速試作と小ロット試産",
+      ja: "超速試作と小ロット試産",
       en: "Rapid Prototyping & Low-Volume Run",
     },
   },
@@ -103,23 +103,23 @@ export const PROJECT_TOPICS = [
     id: "industrial-delegations",
     label: {
       zh: "工业一线见学与闭门考察",
-      ja: "工業一線見学とクローズド考察",
-      en: "Industrial Field Delegations",
+      ja: "工業の一線見学と非公開視察",
+      en: "Front-line industrial study visits and closed-door inspections",
     },
   },
   {
     id: "curated-expeditions",
     label: {
       zh: "定制跨界游学",
-      ja: "キュレーション越境遊学",
-      en: "Curated Expeditions",
+      ja: "オーダーメイドの越境遊学",
+      en: "Made-to-measure cross-boundary study travel",
     },
   },
   {
     id: "opc-incubation",
     label: {
       zh: "超级个体孵化",
-      ja: "スーパー個体の育成",
+      ja: "ひとり事業（OPC）の育成",
       en: "OPC Incubation",
     },
   },
@@ -179,6 +179,9 @@ export function localizeVisibleTags(
     const topic = findTopic(tag)
     if (topic) {
       if (collection === "projects" && !PROJECT_TOPICS.some((item) => item.id === topic.id)) {
+        continue
+      }
+      if (collection === "blog" && !BLOG_TOPICS.some((item) => item.id === topic.id)) {
         continue
       }
       const label = topic.label[locale]

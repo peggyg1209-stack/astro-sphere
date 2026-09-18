@@ -7,6 +7,11 @@ tags:
 - Tutorial
 - Astro
 - Astro Sphere
+# i18n: fill when copy is ready. JA/EN body → src/i18n/blog-bodies/06-astro-sphere-social-links.{ja,en}.md
+# titleJa:
+# titleEn:
+# summaryJa:
+# summaryEn:
 ---
 
 Astro Sphere comes preconfigured with social media links for Email, Github, Linked In and Twitter (X), but it's very easy to add more.

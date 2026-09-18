@@ -1,10 +1,10 @@
 ---
 title: "服务中国先进制造业出海数字化与合规落地"
-titleJa: "中国先進製造の海外展開：デジタル化とコンプライアンス実装"
-titleEn: "China Advanced Manufacturing Abroad: Digitalization & Compliance"
+titleJa: "中国先進製造業の海外展開：デジタル化とコンプライアンスの現地実装"
+titleEn: "Digitalization and Compliance for China's Advanced Manufacturers Going Abroad"
 summary: "制造业品牌数字化出口路径，以及标的国家合规落地与展业框架"
-summaryJa: "金型からラインまでのデジタル輸出経路と、現地のコンプライアンス／展開のフレーム。"
-summaryEn: "A digital export path from die to line, plus the compliance and hiring skeleton on the ground."
+summaryJa: "製造業ブランドのデジタル輸出経路と、進出先におけるコンプライアンス実装および事業展開の枠組み。"
+summaryEn: "A digital export path for manufacturing brands, with a compliance and go-to-market frame in the target country."
 date: "Sep 01 2026"
 draft: false
 mark: export
@@ -14,7 +14,8 @@ tags:
   - rapid-prototyping
   - generative-visibility
   - cross-border-eor
-reserveMedia: false
+# Cover / gallery / video / audio can be filled later; empty slots stay reserved.
+reserveMedia: true
 ---
 ## 痛点：现状与产业趋势间存在断层
 在过去服务于外资及民营制造业产品市场、跨境创新与产业落地平台的那段经历里，我深度接触了大量沉淀于工业一线的中国制造企业与硬科技团队，经常在车间与老板们的办公室里看到同一种困境：我们往往拥有过硬、极快的物理造物能力，但在海外数字世界里，却几乎是“隐形”的。<br> 

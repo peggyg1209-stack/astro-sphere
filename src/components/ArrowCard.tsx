@@ -1,11 +1,12 @@
-import { formatDate } from "@lib/utils"
-import { localizedProjectCopy } from "@lib/project"
+import { formatDate, readingTime } from "@lib/utils"
+import { localizedEntryBody, localizedEntryCopy } from "@lib/project"
 import type { CollectionEntry } from "astro:content"
 import type { Locale } from "@i18n/config"
 import { localizePath } from "@i18n/utils"
 import { localizeVisibleTags } from "@i18n/topics"
 import { IndustrialGround, ProjectMark, type ProjectMarkId } from "@components/ProjectVisuals"
 import { cn } from "@lib/utils"
+import { t } from "@i18n/ui"
 
 type Props = {
   entry: CollectionEntry<"blog"> | CollectionEntry<"projects">
@@ -20,19 +21,18 @@ export default function ArrowCard(props: Props) {
   const href = () => localizePath(`/${props.entry.collection}/${props.entry.slug}/`, locale())
   const isProject = () => props.entry.collection === "projects"
   const project = () => (isProject() ? (props.entry as CollectionEntry<"projects">).data : null)
-  const copy = () => {
-    const data = project()
-    if (data) return localizedProjectCopy(data, locale())
-    return { title: props.entry.data.title, summary: props.entry.data.summary }
-  }
+  const copy = () => localizedEntryCopy(props.entry, locale())
   const tags = () =>
-    isProject()
-      ? localizeVisibleTags(props.entry.data.tags, locale(), "projects")
-      : props.entry.data.tags
+    localizeVisibleTags(props.entry.data.tags, locale(), props.entry.collection)
   const mark = () => project()?.mark as ProjectMarkId | undefined
   const status = () => project()?.status
   const atmosphere = () => (props.featured ? project()?.atmosphere : undefined)
   const film = () => atmosphere() === "film" ? project()?.cover : undefined
+  const meta = () => {
+    if (!isProject()) return formatDate(props.entry.data.date, locale())
+    const body = localizedEntryBody("projects", props.entry.slug, locale(), props.entry.body)
+    return readingTime(body, t(locale(), "minRead"))
+  }
 
   return (
     <a
@@ -51,7 +51,7 @@ export default function ArrowCard(props: Props) {
           src={film()!.src}
           alt=""
           aria-hidden="true"
-          class="absolute inset-0 h-full w-full object-cover opacity-70 dark:opacity-50"
+          class="absolute inset-0 h-full w-full object-cover opacity-[0.42] dark:opacity-[0.38]"
         />
       )}
       {props.featured && (
@@ -60,15 +60,26 @@ export default function ArrowCard(props: Props) {
             class="project-card-grain pointer-events-none absolute inset-0"
             aria-hidden="true"
           />
-          <div
-            class={cn(
-              "pointer-events-none absolute inset-0",
-              atmosphere() === "film"
-                ? "bg-gradient-to-r from-paper/82 via-paper/62 to-paper/20 dark:from-ink/78 dark:via-ink/52 dark:to-ink/22"
-                : "bg-gradient-to-r from-paper/92 via-paper/78 to-paper/42 dark:from-ink/94 dark:via-ink/80 dark:to-ink/40",
-            )}
-            aria-hidden="true"
-          />
+          {atmosphere() === "film" ? (
+            <>
+              <div
+                class="pointer-events-none absolute inset-0 bg-gradient-to-r from-paper from-[8%] via-paper/90 via-48% to-paper/38 dark:hidden"
+                aria-hidden="true"
+              />
+              <div
+                class="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-ink from-[12%] via-ink/92 via-52% to-ink/48 dark:block"
+                aria-hidden="true"
+              />
+            </>
+          ) : (
+            <div
+              class={cn(
+                "pointer-events-none absolute inset-0",
+                "bg-gradient-to-r from-paper/96 via-paper/90 to-paper/62 dark:from-ink/94 dark:via-ink/80 dark:to-ink/40",
+              )}
+              aria-hidden="true"
+            />
+          )}
         </>
       )}
 
@@ -85,7 +96,14 @@ export default function ArrowCard(props: Props) {
           />
         )}
 
-        <div class="w-full min-w-0 group-hover:text-black group-hover:dark:text-white blend">
+        <div
+          class={cn(
+            "w-full min-w-0 blend",
+            props.featured
+              ? "text-ink dark:text-white group-hover:text-ink dark:group-hover:text-white"
+              : "group-hover:text-black group-hover:dark:text-white",
+          )}
+        >
           <div class="flex flex-wrap items-center gap-2">
             {props.pill && (
               <div class="meta rounded-full border border-black/15 px-2 py-0.5 dark:border-white/25">
@@ -97,20 +115,39 @@ export default function ArrowCard(props: Props) {
                 [{status()}]
               </span>
             )}
-            <div class="meta">{formatDate(props.entry.data.date, locale())}</div>
+            <div class={cn("meta", props.featured && "text-ink/80 dark:text-white/85")}>{meta()}</div>
           </div>
 
-          <div class="mt-2.5 font-semibold leading-snug text-black dark:text-white line-clamp-2">
+          <div
+            class={cn(
+              "mt-2.5 font-semibold leading-snug line-clamp-2",
+              props.featured ? "text-ink dark:text-white" : "text-black dark:text-white",
+            )}
+          >
             {copy().title}
           </div>
 
-          <div class="mt-1 text-sm opacity-75 line-clamp-2">{copy().summary}</div>
+          <div
+            class={cn(
+              "mt-1 text-sm line-clamp-2",
+              props.featured ? "text-ink/88 dark:text-white/90" : "opacity-75",
+            )}
+          >
+            {copy().summary}
+          </div>
 
           {tags().length > 0 && (
             <ul class="mt-2.5 flex flex-wrap gap-1.5 list-none pl-0">
               {tags().map((tag: string) => (
                 isProject() ? (
-                  <li class="font-mono text-[0.62rem] tracking-[0.08em] text-black/65 dark:text-white/65">
+                  <li
+                    class={cn(
+                      "font-mono text-[0.62rem] tracking-[0.08em]",
+                      props.featured
+                        ? "text-ink/80 dark:text-white/80"
+                        : "text-black/65 dark:text-white/65",
+                    )}
+                  >
                     #{tag}
                   </li>
                 ) : (

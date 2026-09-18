@@ -8,6 +8,11 @@ tags:
 - Astro
 - Astro Sphere
 - Markdown
+# i18n: fill when copy is ready. JA/EN body → src/i18n/blog-bodies/04-astro-sphere-writing-markdown.{ja,en}.md
+# titleJa:
+# titleEn:
+# summaryJa:
+# summaryEn:
 ---
 
 ### Headings
