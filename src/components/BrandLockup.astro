@@ -1,0 +1,48 @@
+---
+import BrandMark from "@components/BrandMark.astro"
+import CorridorMark from "@components/CorridorMark.astro"
+import { t } from "@i18n/ui"
+import { getLocaleFromUrl } from "@i18n/utils"
+
+type Props = {
+  href: string
+  /** Skip the TYO hub graphic (tight header). */
+  compact?: boolean
+}
+
+const { href, compact = false } = Astro.props
+const locale = getLocaleFromUrl(Astro.url)
+const title = t(locale, "siteTitle")
+const tagline = t(locale, "brandTagline")
+const cjk = locale !== "en"
+---
+
+<a
+  href={href}
+  aria-label={`${title} · ${tagline}`}
+  class="group flex max-w-full items-center gap-2 text-current blend hover:text-black dark:hover:text-white sm:gap-2.5"
+>
+  <BrandMark class={`shrink-0 transition-transform duration-500 ease-paper group-hover:scale-[1.04] ${compact ? "size-8" : "size-9"}`} />
+  <span class="flex min-w-0 flex-col items-start gap-1">
+    <span class="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5 sm:gap-x-2.5">
+      <span class="font-display text-[1.05rem] leading-none tracking-wide sm:text-lg">
+        {title}
+      </span>
+      <span
+        class:list={[
+          "min-w-0 max-w-full leading-snug text-pine dark:text-lake-light",
+          cjk
+            ? "break-keep font-serif text-[clamp(0.7rem,0.58rem+0.45vw,0.8rem)] tracking-normal"
+            : "font-mono text-[clamp(0.6rem,0.48rem+0.4vw,0.72rem)] tracking-[0.04em]",
+        ]}
+      >
+        {tagline}
+      </span>
+    </span>
+    {!compact && (
+      <span class="mt-0.5 max-w-full">
+        <CorridorMark />
+      </span>
+    )}
+  </span>
+</a>

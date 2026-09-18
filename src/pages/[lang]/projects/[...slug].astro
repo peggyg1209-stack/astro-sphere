@@ -1,0 +1,20 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content"
+import ProjectPostPage from "@views/ProjectPostPage.astro"
+import { PREFIXED_LOCALES } from "@i18n/config"
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects")
+  return PREFIXED_LOCALES.flatMap((lang) =>
+    projects.map((project) => ({
+      params: { lang, slug: project.slug },
+      props: project,
+    })),
+  )
+}
+
+type Props = CollectionEntry<"projects">
+const project = Astro.props
+---
+
+<ProjectPostPage project={project} />

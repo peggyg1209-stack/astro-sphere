@@ -1,0 +1,61 @@
+---
+import type { MediaImage } from "../content/config"
+import { t } from "@i18n/ui"
+import { getLocaleFromUrl } from "@i18n/utils"
+
+type Props = {
+  images?: MediaImage[]
+  reserve?: boolean
+  slots?: number
+}
+
+const { images = [], reserve = false, slots = 2 } = Astro.props
+const locale = getLocaleFromUrl(Astro.url)
+const hasImages = images.length > 0
+
+function padPair(list: Array<MediaImage | null>): Array<MediaImage | null> {
+  if (list.length % 2 === 1) return [...list, null]
+  return list
+}
+
+const cells: Array<MediaImage | null> = hasImages
+  ? reserve
+    ? padPair(images)
+    : images
+  : reserve
+    ? Array.from({ length: slots }, () => null)
+    : []
+---
+
+{
+  cells.length > 0 && (
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {cells.map((image) =>
+        image ? (
+          <figure class="media-slot is-filled edge-glow group">
+            <span class="media-slot-label">{t(locale, "mediaGallery")}</span>
+            <img
+              src={image.src}
+              alt={image.alt}
+              loading="lazy"
+              decoding="async"
+              class="m-0 block aspect-[4/3] w-full object-cover p-0 transition-transform duration-700 ease-paper group-hover:scale-[1.02]"
+            />
+            {image.caption && (
+              <figcaption class="meta normal-case border-t border-black/10 px-3 py-2 dark:border-white/15">
+                {image.caption}
+              </figcaption>
+            )}
+          </figure>
+        ) : (
+          <div class="media-slot aspect-[4/3]">
+            <span class="media-slot-label">{t(locale, "mediaGallery")}</span>
+            <div class="media-slot-empty">
+              <span class="meta">{t(locale, "mediaImageReserved")}</span>
+            </div>
+          </div>
+        ),
+      )}
+    </div>
+  )
+}

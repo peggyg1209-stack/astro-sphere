@@ -1,0 +1,184 @@
+---
+import { SITE } from "@consts"
+import { LOCALES, LOCALE_LABEL, HREFLANG } from "@i18n/config"
+import { t } from "@i18n/ui"
+import {
+  getLocaleFromUrl,
+  isNavActive,
+  localizePath,
+  navHref,
+  stripLocalePrefix,
+} from "@i18n/utils"
+import { cn } from "@lib/utils"
+import Container from "@components/Container.astro"
+import BrandLockup from "@components/BrandLockup.astro"
+
+const locale = getLocaleFromUrl(Astro.url)
+const { pathname } = Astro.url
+
+/** Fixed order per spec: Home → Projects → Blogs. */
+const links = [
+  { text: t(locale, "home"), href: navHref(locale, "home") },
+  { text: t(locale, "projects"), href: navHref(locale, "projects") },
+  { text: t(locale, "blogs"), href: navHref(locale, "blog") },
+]
+
+const homeHref = navHref(locale, "home")
+const searchHref = localizePath("/search/", locale)
+const stripped = stripLocalePrefix(pathname)
+
+const iconButton = cn(
+  "size-9 rounded-full p-2 items-center justify-center",
+  "bg-transparent hover:bg-paper-sunken dark:hover:bg-ink-soft",
+  "stroke-current hover:stroke-pine dark:hover:stroke-lake-light",
+  "border border-black/10 dark:border-white/20",
+  "blend",
+)
+---
+
+<header id="header" class="fixed top-0 z-50 w-full">
+  <Container size="lg">
+    <div class="flex min-h-[4.25rem] flex-wrap items-center justify-between gap-x-3 gap-y-2 py-3 lg:grid lg:grid-cols-[minmax(0,1.2fr)_auto_minmax(0,1fr)] lg:gap-x-4">
+      <div class="min-w-0 justify-self-start">
+        <BrandLockup href={homeHref} compact />
+      </div>
+
+      <nav class="hidden shrink-0 items-center justify-center justify-self-center gap-0.5 text-sm lg:flex">
+          {
+            links.map((link) => (
+              <a
+                href={link.href}
+                aria-current={isNavActive(pathname, link.href) ? "page" : undefined}
+                class={cn(
+                  "h-8 whitespace-nowrap rounded-full px-2.5 text-current xl:px-3.5",
+                  "flex items-center justify-center",
+                  "blend",
+                  isNavActive(pathname, link.href)
+                    ? "bg-black text-white dark:bg-white dark:text-black"
+                    : "hover:bg-paper-sunken dark:hover:bg-ink-soft hover:text-black dark:hover:text-white",
+                )}
+              >
+                {link.text}
+              </a>
+            ))
+          }
+        </nav>
+
+      <div class="buttons flex shrink-0 items-center justify-self-end gap-1">
+        <nav class="hidden items-center gap-0.5 md:flex" aria-label={t(locale, "langSwitch")}>
+          {
+            LOCALES.map((item) => (
+              <a
+                href={localizePath(stripped, item)}
+                hreflang={HREFLANG[item]}
+                lang={HREFLANG[item]}
+                aria-current={item === locale ? "page" : undefined}
+                class={cn(
+                  "h-8 min-w-8 rounded-full px-2 font-mono text-[0.7rem] font-medium uppercase tracking-wider",
+                  "flex items-center justify-center",
+                  "blend",
+                  item === locale
+                    ? "pointer-events-none bg-black text-white dark:bg-white dark:text-black"
+                    : "hover:bg-paper-sunken dark:hover:bg-ink-soft hover:text-black dark:hover:text-white",
+                )}
+              >
+                {LOCALE_LABEL[item]}
+              </a>
+            ))
+          }
+        </nav>
+
+        <a
+          href={searchHref}
+          aria-label={`${t(locale, "searchAria")} — ${SITE.TITLE}`}
+          class={cn(
+            "hidden md:flex",
+            iconButton,
+            isNavActive(pathname, searchHref)
+              ? "pointer-events-none bg-black text-white dark:bg-white dark:text-black"
+              : "",
+          )}
+        >
+          <svg class="size-full">
+            <use href="/ui.svg#search"></use>
+          </svg>
+        </a>
+
+        <a
+          href="/rss.xml"
+          target="_blank"
+          aria-label={`${t(locale, "rssFeed")} — ${SITE.TITLE}`}
+          class={cn("hidden md:flex", iconButton)}
+        >
+          <svg class="size-full">
+            <use href="/ui.svg#rss"></use>
+          </svg>
+        </a>
+
+        <button
+          id="header-theme-button"
+          aria-label={t(locale, "toggleTheme")}
+          class={cn("hidden md:flex", iconButton)}
+        >
+          <svg class="size-full block dark:hidden">
+            <use href="/ui.svg#sun"></use>
+          </svg>
+          <svg class="size-full hidden dark:block">
+            <use href="/ui.svg#moon"></use>
+          </svg>
+        </button>
+
+        <button
+          id="header-drawer-button"
+          aria-label={t(locale, "toggleDrawer")}
+          aria-expanded="false"
+          aria-controls="drawer"
+          class={cn("flex md:hidden", iconButton)}
+        >
+          <svg id="drawer-open" class="size-full">
+            <use href="/ui.svg#menu"></use>
+          </svg>
+          <svg id="drawer-close" class="size-full">
+            <use href="/ui.svg#x"></use>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </Container>
+</header>
+
+<style>
+  #header-drawer-button > #drawer-open {
+    @apply block;
+  }
+
+  #header-drawer-button > #drawer-close {
+    @apply hidden;
+  }
+
+  #header-drawer-button.open > #drawer-open {
+    @apply hidden;
+  }
+
+  #header-drawer-button.open > #drawer-close {
+    @apply block;
+  }
+</style>
+
+<script is:inline>
+  function toggleDrawer() {
+    const drawer = document.getElementById("drawer")
+    const drawerButton = document.getElementById("header-drawer-button")
+    const isOpen = drawer?.classList.toggle("open")
+    drawerButton?.classList.toggle("open")
+    drawerButton?.setAttribute("aria-expanded", isOpen ? "true" : "false")
+  }
+
+  function initializeDrawerButton() {
+    const drawerButton = document.getElementById("header-drawer-button")
+    drawerButton?.addEventListener("click", toggleDrawer)
+  }
+
+  document.addEventListener("astro:after-swap", initializeDrawerButton)
+  initializeDrawerButton()
+</script>

@@ -1,0 +1,156 @@
+---
+import { getCollection } from "astro:content"
+import PageLayout from "@layouts/PageLayout.astro"
+import ArrowCard from "@components/ArrowCard"
+import ContactSection from "@components/ContactSection.astro"
+import HeroMotion from "@components/HeroMotion.astro"
+import { t } from "@i18n/ui"
+import { getLocaleFromUrl, localizePath } from "@i18n/utils"
+
+const locale = getLocaleFromUrl(Astro.url)
+
+/** Three reserved project slots, filled newest-first and padded with holds. */
+const PROJECT_SLOTS = 3
+
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3)
+
+const projects = (await getCollection("projects"))
+  .filter((project) => !project.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, PROJECT_SLOTS)
+
+const projectSlots = Array.from(
+  { length: PROJECT_SLOTS },
+  (_, index) => projects[index] ?? null,
+)
+---
+
+<PageLayout title={t(locale, "home")} description={t(locale, "siteDescription")}>
+  {/* ---------------------------------------------------------------- Home */}
+  <section
+    id="home"
+    class="cursor-glow relative flex min-h-[76vh] w-full items-center justify-center overflow-hidden"
+  >
+    <HeroMotion />
+
+    <div class="relative z-10 w-full max-w-screen-md px-5 py-16 text-center md:py-20">
+      <p class="animate meta">
+        {t(locale, "heroGreeting")}
+      </p>
+
+      {/* Latin wordmark in Cormorant Garamond; the KV gradient never fills it,
+          it only tracks the cursor across this section and lights the rules. */}
+      <h1
+        class="animate display mt-4 text-5xl leading-[1.05] sm:text-6xl md:text-7xl"
+      >
+        {t(locale, "heroName")}
+      </h1>
+
+      {/* Gradient hairline — one of the three sanctioned gradient surfaces */}
+      <div
+        class="animate mx-auto mt-6 h-px w-24 bg-kv-gradient opacity-70"
+        aria-hidden="true"
+      >
+      </div>
+
+      <p class="animate mt-6 text-lg md:text-xl opacity-80">
+        {t(locale, "heroTagline")}
+      </p>
+
+      <p class="animate mx-auto mt-4 max-w-xl text-sm md:text-base opacity-70">
+        {t(locale, "heroAbout")}
+      </p>
+
+      <div class="animate mt-9 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href={localizePath("/projects/", locale)}
+          class="edge-glow rounded-md border border-black/15 bg-white px-5 py-2.5 text-sm text-black blend hover:bg-paper-sunken dark:border-white/20 dark:bg-ink-raised dark:text-white dark:hover:bg-ink-soft"
+        >
+          {t(locale, "ctaProjects")}
+        </a>
+        <a
+          href={localizePath("/blog/", locale)}
+          class="edge-glow rounded-md border border-transparent px-5 py-2.5 text-sm blend hover:bg-paper-sunken dark:hover:bg-ink-soft"
+        >
+          {t(locale, "ctaBlogs")}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="relative">
+    <div class="mx-auto max-w-screen-md space-y-32 px-5 pb-24 pt-8 md:pt-12">
+      {/* ------------------------------------------------------- Projects */}
+      <section id="projects" class="animate scroll-mt-24">
+        <div class="flex items-baseline justify-between gap-4">
+          <h2 class="text-2xl font-semibold text-black dark:text-white">
+            {t(locale, "recentProjects")}
+          </h2>
+          <a
+            href={localizePath("/projects/", locale)}
+            class="group meta normal-case flex w-fit items-center gap-1 underline decoration-[.5px] underline-offset-4 decoration-black/25 dark:decoration-white/40 hover:decoration-pine dark:hover:decoration-lake-light blend"
+          >
+            <span class="group-hover:text-pine dark:group-hover:text-lake-light blend">
+              {t(locale, "allProjects")}
+            </span>
+          </a>
+        </div>
+
+        <ul class="mt-5 space-y-4 list-none pl-0">
+          {
+            projectSlots.map((project, index) => (
+              <li>
+                {project ? (
+                  <ArrowCard entry={project} locale={locale} />
+                ) : (
+                  /* Reserved project slot — holds layout until content lands */
+                  <div class="rounded-lg border border-dashed border-black/15 p-4 dark:border-white/20">
+                    <div class="meta">
+                      {t(locale, "projectSlot")} {String(index + 1).padStart(2, "0")}
+                    </div>
+                    <div class="mt-3 font-semibold text-black/50 dark:text-white/50">
+                      {t(locale, "projectSlotHint")}
+                    </div>
+                  </div>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      {/* ---------------------------------------------------------- Blogs */}
+      <section id="blogs" class="animate scroll-mt-24">
+        <div class="flex items-baseline justify-between gap-4">
+          <h2 class="text-2xl font-semibold text-black dark:text-white">
+            {t(locale, "recentPosts")}
+          </h2>
+          <a
+            href={localizePath("/blog/", locale)}
+            class="group meta normal-case flex w-fit items-center gap-1 underline decoration-[.5px] underline-offset-4 decoration-black/25 dark:decoration-white/40 hover:decoration-pine dark:hover:decoration-lake-light blend"
+          >
+            <span class="group-hover:text-pine dark:group-hover:text-lake-light blend">
+              {t(locale, "allPosts")}
+            </span>
+          </a>
+        </div>
+
+        <ul class="mt-5 space-y-4 list-none pl-0">
+          {posts.map((post) => (
+            <li>
+              <ArrowCard entry={post} locale={locale} />
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* --------------------------------------------- Send me a message */}
+      <div class="animate">
+        <ContactSection />
+      </div>
+    </div>
+  </div>
+</PageLayout>

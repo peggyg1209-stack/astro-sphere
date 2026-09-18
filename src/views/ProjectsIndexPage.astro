@@ -1,0 +1,71 @@
+---
+import { getCollection } from "astro:content"
+import PageLayout from "@layouts/PageLayout.astro"
+import TopLayout from "@layouts/TopLayout.astro"
+import BottomLayout from "@layouts/BottomLayout.astro"
+import SearchCollection from "@components/SearchCollection"
+import { t } from "@i18n/ui"
+import { PROJECT_TOPICS, localizeTopics, topicKeywords } from "@i18n/topics"
+import { getLocaleFromUrl } from "@i18n/utils"
+
+const locale = getLocaleFromUrl(Astro.url)
+const topics = localizeTopics(PROJECT_TOPICS, locale)
+const keywords = topicKeywords(PROJECT_TOPICS, locale)
+
+const projects = (await getCollection("projects"))
+  .filter((project) => !project.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+const estimated_initial_size =
+  28 + projects.length * 158 + (projects.length - 1) * 12
+---
+
+<PageLayout title={t(locale, "projects")} description={t(locale, "projectsDescription")} keywords={keywords}>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: t(locale, "projects"),
+    description: t(locale, "projectsDescription"),
+    keywords: keywords,
+    about: PROJECT_TOPICS.map((topic) => ({
+      "@type": "DefinedTerm",
+      name: topic.label[locale],
+      identifier: topic.id,
+      inDefinedTermSet: "Peggy Gao Project Topics",
+    })),
+  })} />
+
+  <TopLayout>
+    <div class="animate">
+      <h1 class="page-heading">
+        {t(locale, "projects")}
+      </h1>
+      <div class="mt-2 opacity-75">
+        {t(locale, "projectsDescription")}
+      </div>
+    </div>
+  </TopLayout>
+  <BottomLayout>
+    <div
+      id="search-collection-wrapper"
+      class="animate"
+      style={{ minHeight: `${estimated_initial_size}px` }}
+    >
+      <SearchCollection
+        client:load
+        entry_name={t(locale, "projectsLabel")}
+        topics={topics}
+        data={projects}
+        locale={locale}
+        labels={{
+          tags: t(locale, "tags"),
+          showing: t(locale, "showing"),
+          of: t(locale, "of"),
+          ascending: t(locale, "ascending"),
+          descending: t(locale, "descending"),
+          placeholder: t(locale, "searchProjects"),
+        }}
+      />
+    </div>
+  </BottomLayout>
+</PageLayout>

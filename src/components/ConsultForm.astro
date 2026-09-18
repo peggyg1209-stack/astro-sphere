@@ -1,0 +1,275 @@
+---
+import { t } from "@i18n/ui"
+import { getLocaleFromUrl } from "@i18n/utils"
+import { CONSULT_TOPICS } from "@lib/lark/types"
+
+const locale = getLocaleFromUrl(Astro.url)
+
+const topicLabels = {
+  consulting: t(locale, "topicConsulting"),
+  collaboration: t(locale, "topicCollaboration"),
+  speaking: t(locale, "topicSpeaking"),
+  other: t(locale, "topicOther"),
+} as const
+
+const messages = {
+  invalid: t(locale, "formErrorInvalid"),
+  network: t(locale, "formErrorNetwork"),
+  "rate-limited": t(locale, "formErrorRate"),
+  upstream: t(locale, "formErrorUpstream"),
+  "not-configured": t(locale, "formNotConfigured"),
+  success: t(locale, "formSuccess"),
+  submitting: t(locale, "formSubmitting"),
+  submit: t(locale, "formSubmit"),
+  required: t(locale, "formRequired"),
+  invalidContact: t(locale, "formInvalidContact"),
+}
+
+/** Unique per instance so the homepage and a project page can each host a form. */
+const uid = `consult-${Math.random().toString(36).slice(2, 9)}`
+---
+
+<form
+  id={uid}
+  class="mt-6 space-y-4"
+  novalidate
+  data-consult
+  data-locale={locale}
+  data-messages={JSON.stringify(messages)}
+>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="space-y-1.5">
+      <label class="field-label" for={`${uid}-name`}>{t(locale, "formName")}</label>
+      <input
+        class="field"
+        id={`${uid}-name`}
+        name="name"
+        type="text"
+        autocomplete="name"
+        required
+        placeholder={t(locale, "formNamePlaceholder")}
+      />
+      <p class="field-error meta hidden" data-error-for="name"></p>
+    </div>
+
+    <div class="space-y-1.5">
+      <label class="field-label" for={`${uid}-company`}>
+        {t(locale, "formCompany")} <span class="opacity-60">({t(locale, "formOptional")})</span>
+      </label>
+      <input
+        class="field"
+        id={`${uid}-company`}
+        name="company"
+        type="text"
+        autocomplete="organization"
+        placeholder={t(locale, "formCompanyPlaceholder")}
+      />
+    </div>
+
+    <div class="space-y-1.5">
+      <label class="field-label" for={`${uid}-topic`}>{t(locale, "formTopic")}</label>
+      <select class="field" id={`${uid}-topic`} name="topic">
+        {CONSULT_TOPICS.map((topic) => (
+          <option value={topic}>{topicLabels[topic]}</option>
+        ))}
+      </select>
+    </div>
+
+    <div class="space-y-1.5">
+      <label class="field-label" for={`${uid}-date`}>
+        {t(locale, "formDate")} <span class="opacity-60">({t(locale, "formOptional")})</span>
+      </label>
+      <input class="field" id={`${uid}-date`} name="preferredDate" type="date" />
+    </div>
+  </div>
+
+  <div class="space-y-1.5">
+    <label class="field-label" for={`${uid}-message`}>{t(locale, "formMessage")}</label>
+    <textarea
+      class="field resize-y min-h-28"
+      id={`${uid}-message`}
+      name="message"
+      rows="4"
+      required
+      placeholder={t(locale, "formMessagePlaceholder")}></textarea>
+    <p class="field-error meta hidden" data-error-for="message"></p>
+  </div>
+
+  {/* CONTACT INFO sits at the bottom, replacing the old displayed email address. */}
+  <div class="space-y-1.5">
+    <label class="field-label" for={`${uid}-contact`}>
+      {t(locale, "formContact")}
+      <span class="opacity-60">({t(locale, "formContactHint")})</span>
+    </label>
+    <input
+      class="field"
+      id={`${uid}-contact`}
+      name="contact"
+      type="text"
+      inputmode="email"
+      autocomplete="email"
+      required
+      placeholder={t(locale, "formContactPlaceholder")}
+    />
+    <p class="field-error meta hidden" data-error-for="contact"></p>
+  </div>
+
+  <div class="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+    <label for={`${uid}-trap`}>Leave this field empty</label>
+    <input id={`${uid}-trap`} name="trap" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <label class="flex items-start gap-2.5 text-sm cursor-pointer group">
+    <input
+      class="mt-0.5 size-4 shrink-0 rounded-sm accent-pine cursor-pointer"
+      name="consent"
+      type="checkbox"
+      required
+    />
+    <span class="group-hover:text-black dark:group-hover:text-white blend">
+      {t(locale, "formConsent")}
+    </span>
+  </label>
+  <p class="field-error meta hidden" data-error-for="consent"></p>
+
+  <div class="flex flex-wrap items-center gap-4 pt-1">
+    <button
+      type="submit"
+      class="edge-glow group relative flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium border border-black/15 dark:border-white/20 bg-white dark:bg-ink-raised text-black dark:text-white hover:bg-paper-sunken dark:hover:bg-ink-soft blend disabled:opacity-50 disabled:pointer-events-none"
+    >
+      <span data-submit-label>{t(locale, "formSubmit")}</span>
+      <svg
+        class="size-4 stroke-current opacity-0 [.is-submitting_&]:opacity-100 blend"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
+        <path d="M12 3a9 9 0 1 0 9 9" />
+      </svg>
+    </button>
+  </div>
+
+  <p
+    class="consult-status meta normal-case hidden"
+    role="status"
+    aria-live="polite"
+  >
+  </p>
+</form>
+
+<style>
+  .field-error {
+    color: rgb(var(--copy) / 0.7);
+  }
+
+  form.is-submitting svg[viewBox="0 0 24 24"] {
+    animation: consult-spin 0.9s linear infinite;
+  }
+
+  @keyframes consult-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .consult-status[data-state="success"] {
+    color: rgb(var(--pine));
+  }
+
+  .consult-status[data-state="error"] {
+    color: rgb(var(--copy) / 0.85);
+  }
+</style>
+
+<script>
+  import { normalizeConsult, submitConsult, validateConsult } from "@lib/lark/client"
+  import type { Locale } from "@i18n/config"
+
+  type Messages = Record<string, string>
+
+  function bindConsultForm(form: HTMLFormElement) {
+    if (form.dataset.bound === "true") return
+    form.dataset.bound = "true"
+
+    const status = form.querySelector<HTMLElement>(".consult-status")
+    const submitButton = form.querySelector<HTMLButtonElement>("button[type='submit']")
+    const submitLabel = form.querySelector<HTMLElement>("[data-submit-label]")
+    const messages: Messages = JSON.parse(form.dataset.messages ?? "{}")
+    const locale = (form.dataset.locale ?? "zh") as Locale
+
+    function setStatus(text: string, state: "success" | "error") {
+      if (!status) return
+      status.textContent = text
+      status.dataset.state = state
+      status.classList.remove("hidden")
+    }
+
+    function clearErrors() {
+      form.querySelectorAll<HTMLElement>("[data-error-for]").forEach((node) => {
+        node.textContent = ""
+        node.classList.add("hidden")
+      })
+      status?.classList.add("hidden")
+    }
+
+    function showErrors(issues: Record<string, string>) {
+      Object.entries(issues).forEach(([field, key]) => {
+        const node = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`)
+        if (!node) return
+        node.textContent = key === "invalidContact" ? messages.invalidContact : messages.required
+        node.classList.remove("hidden")
+      })
+    }
+
+    function setBusy(busy: boolean) {
+      form.classList.toggle("is-submitting", busy)
+      if (submitButton) submitButton.disabled = busy
+      if (submitLabel) {
+        submitLabel.textContent = busy ? messages.submitting : messages.submit
+      }
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault()
+      clearErrors()
+
+      const data = new FormData(form)
+      const raw: Record<string, string> = {}
+      data.forEach((value, key) => {
+        if (typeof value === "string") raw[key] = value
+      })
+
+      const submission = normalizeConsult(raw, {
+        locale,
+        sourcePath: window.location.pathname,
+      })
+
+      const issues = validateConsult(submission)
+      if (Object.keys(issues).length > 0) {
+        showErrors(issues as Record<string, string>)
+        setStatus(messages.invalid, "error")
+        return
+      }
+
+      setBusy(true)
+      const result = await submitConsult(submission, { trap: raw.trap })
+      setBusy(false)
+
+      if (result.ok) {
+        form.reset()
+        setStatus(messages.success, "success")
+        return
+      }
+
+      setStatus(messages[result.error] ?? messages.upstream, "error")
+    })
+  }
+
+  function initializeConsultForms() {
+    document.querySelectorAll<HTMLFormElement>("form[data-consult]").forEach(bindConsultForm)
+  }
+
+  document.addEventListener("astro:after-swap", initializeConsultForms)
+  initializeConsultForms()
+</script>

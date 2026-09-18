@@ -1,0 +1,73 @@
+---
+import { getCollection } from "astro:content"
+import PageLayout from "@layouts/PageLayout.astro"
+import TopLayout from "@layouts/TopLayout.astro"
+import BottomLayout from "@layouts/BottomLayout.astro"
+import SearchCollection from "@components/SearchCollection"
+import { t } from "@i18n/ui"
+import { BLOG_TOPICS, localizeTopics, topicKeywords } from "@i18n/topics"
+import { getLocaleFromUrl } from "@i18n/utils"
+
+const locale = getLocaleFromUrl(Astro.url)
+const topics = localizeTopics(BLOG_TOPICS, locale)
+const keywords = topicKeywords(BLOG_TOPICS, locale)
+
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+const estimated_initial_size = 28 + posts.length * 158 + (posts.length - 1) * 12
+---
+
+<PageLayout title={t(locale, "blogs")} description={t(locale, "blogDescription")} keywords={keywords}>
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: t(locale, "blogs"),
+    description: t(locale, "blogDescription"),
+    keywords: keywords,
+    about: BLOG_TOPICS.map((topic) => ({
+      "@type": "DefinedTerm",
+      name: topic.label[locale],
+      alternateName: [topic.label.zh, topic.label.ja, topic.label.en].filter(
+        (name, index, list) => list.indexOf(name) === index && name !== topic.label[locale],
+      ),
+      identifier: topic.id,
+      inDefinedTermSet: "Peggy Gao Blog Topics",
+    })),
+  })} />
+
+  <TopLayout>
+    <div class="animate">
+      <h1 class="page-heading">
+        {t(locale, "blogs")}
+      </h1>
+      <div class="mt-2 opacity-75">
+        {t(locale, "blogDescription")}
+      </div>
+    </div>
+  </TopLayout>
+  <BottomLayout>
+    <div
+      id="search-collection-wrapper"
+      class="animate"
+      style={{ minHeight: `${estimated_initial_size}px` }}
+    >
+      <SearchCollection
+        client:load
+        entry_name={t(locale, "posts")}
+        topics={topics}
+        data={posts}
+        locale={locale}
+        labels={{
+          tags: t(locale, "tags"),
+          showing: t(locale, "showing"),
+          of: t(locale, "of"),
+          ascending: t(locale, "ascending"),
+          descending: t(locale, "descending"),
+          placeholder: t(locale, "searchPosts"),
+        }}
+      />
+    </div>
+  </BottomLayout>
+</PageLayout>

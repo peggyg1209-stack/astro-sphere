@@ -1,0 +1,68 @@
+---
+import type { MediaAudio } from "../content/config"
+import { t } from "@i18n/ui"
+import { getLocaleFromUrl } from "@i18n/utils"
+
+type Props = {
+  tracks?: MediaAudio[]
+  reserve?: boolean
+}
+
+const { tracks = [], reserve = false } = Astro.props
+const locale = getLocaleFromUrl(Astro.url)
+const hasTracks = tracks.length > 0
+---
+
+{
+  (hasTracks || reserve) && (
+    <div class="space-y-3">
+      {hasTracks ? (
+        tracks.map((track) => (
+          <div class="media-slot is-filled edge-glow p-4">
+            <span class="media-slot-label">{t(locale, "mediaAudio")}</span>
+            <div class="flex min-h-[5.5rem] flex-col justify-end pt-6">
+              <div class="flex flex-wrap items-baseline justify-between gap-2">
+                {track.title && (
+                  <span class="font-semibold text-black dark:text-white">{track.title}</span>
+                )}
+                <span class="flex items-center gap-3">
+                  {track.duration && <span class="meta">{track.duration}</span>}
+                  {track.transcript && (
+                    <a
+                      href={track.transcript}
+                      class="meta normal-case underline decoration-[.5px] underline-offset-2 hover:text-pine dark:hover:text-lake-light blend"
+                    >
+                      {t(locale, "mediaAudio")}
+                    </a>
+                  )}
+                </span>
+              </div>
+              <audio class="mt-3 w-full" controls preload="none" src={track.src}>
+                {t(locale, "mediaUnsupported")}
+              </audio>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div class="media-slot">
+          <span class="media-slot-label">{t(locale, "mediaAudio")}</span>
+          <div class="media-slot-empty min-h-[5.5rem]">
+            <span class="meta">{t(locale, "mediaAudioReserved")}</span>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+<style>
+  audio {
+    height: 2.25rem;
+    border-radius: 0.375rem;
+    filter: grayscale(0.35) contrast(0.95);
+  }
+
+  :global(html.dark) audio {
+    filter: grayscale(0.35) contrast(0.95) invert(0.92) hue-rotate(180deg);
+  }
+</style>

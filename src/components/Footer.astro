@@ -1,0 +1,286 @@
+---
+import { CONSULT, EMAIL, LINKEDIN, PHONES, SITE, WECHAT } from "@consts"
+import BrandLockup from "@components/BrandLockup.astro"
+import Container from "@components/Container.astro"
+import { t } from "@i18n/ui"
+import { getLocaleFromUrl, localizePath, navHref } from "@i18n/utils"
+
+const locale = getLocaleFromUrl(Astro.url)
+const homeHref = navHref(locale, "home")
+const consultHref = `${homeHref}#${CONSULT.ANCHOR}`
+
+const hairline = "border-t border-black/10 dark:border-white/20"
+const iconButton =
+  "group size-10 rounded-full p-2 flex items-center justify-center hover:bg-paper-sunken dark:hover:bg-ink-soft blend"
+
+const phoneLabels: Record<(typeof PHONES)[number]["id"], string> = {
+  cn: t(locale, "phoneChina"),
+  jp: t(locale, "phoneJapan"),
+}
+---
+
+<footer class="relative">
+  <div class="animate">
+    <section class="py-5">
+      <Container size="md">
+        <div class="flex items-center justify-center sm:justify-end">
+          <button
+            id="back-to-top"
+            aria-label={t(locale, "backToTop")}
+            class="edge-glow group flex w-fit items-center gap-1.5 rounded border border-black/15 p-1.5 text-sm blend hover:bg-paper-sunken dark:border-white/20 dark:hover:bg-ink-soft"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="rotate-90 stroke-current group-hover:stroke-pine dark:group-hover:stroke-lake-light"
+            >
+              <line
+                x1="19"
+                y1="12"
+                x2="5"
+                y2="12"
+                class="scale-x-0 translate-x-3 transition-all duration-300 ease-paper group-hover:scale-x-100 group-hover:translate-x-0"
+              />
+              <polyline
+                points="12 19 5 12 12 5"
+                class="translate-x-1 transition-all duration-300 ease-paper group-hover:translate-x-0"
+              />
+            </svg>
+            <div class="w-full blend group-hover:text-black dark:group-hover:text-white">
+              {t(locale, "backToTop")}
+            </div>
+          </button>
+        </div>
+      </Container>
+    </section>
+
+    <section class={hairline + " py-5"}>
+      <Container size="md">
+        <div class="flex justify-center sm:justify-start">
+          <BrandLockup href={homeHref} />
+        </div>
+      </Container>
+    </section>
+
+    <section class={hairline + " py-5"}>
+      <Container size="md">
+        <div class="grid h-full grid-cols-1 gap-3 sm:grid-cols-2">
+          <div
+            class="order-2 flex flex-col items-center justify-center sm:order-1 sm:items-start"
+          >
+            <div class="legal text-sm">
+              <a
+                href={localizePath("/legal/terms/", locale)}
+                class="text-current blend hover:text-pine dark:hover:text-lake-light"
+              >
+                {t(locale, "terms")}
+              </a> |
+              <a
+                href={localizePath("/legal/privacy/", locale)}
+                class="text-current blend hover:text-pine dark:hover:text-lake-light"
+              >
+                {t(locale, "privacy")}
+              </a>
+            </div>
+            <div class="meta normal-case mt-2">
+              &copy; 2026 | {t(locale, "copyright")}
+            </div>
+          </div>
+
+          <div class="order-1 flex justify-center sm:order-2 sm:justify-end">
+            {/* Left → right: calendar, LinkedIn, WeChat, phone, email */}
+            <div class="flex flex-wrap items-center justify-center gap-1">
+              <a
+                href={consultHref}
+                aria-label={`${t(locale, "consultFormTitle")} — ${SITE.TITLE}`}
+                title={t(locale, "consultFormTitle")}
+                class={iconButton}
+              >
+                <svg
+                  class="size-full fill-none stroke-current blend group-hover:stroke-pine dark:group-hover:stroke-lake-light"
+                >
+                  <use href="/ui.svg#calendar" />
+                </svg>
+              </a>
+
+              <a
+                href={LINKEDIN.HREF}
+                target="_blank"
+                rel="me noopener noreferrer"
+                aria-label={`${t(locale, "linkedin")} — ${SITE.TITLE}`}
+                title={t(locale, "linkedin")}
+                class={iconButton}
+              >
+                <svg
+                  class="size-full fill-current blend group-hover:fill-pine dark:group-hover:fill-lake-light"
+                >
+                  <use href="/social.svg#linkedin" />
+                </svg>
+              </a>
+
+              <button
+                id="wechat-copy"
+                type="button"
+                data-wechat-id={WECHAT.ID}
+                data-copied={t(locale, "wechatCopied")}
+                data-failed={t(locale, "wechatCopyFailed")}
+                aria-label={`${t(locale, "wechat")} ${WECHAT.ID}`}
+                title={`${t(locale, "wechat")} · ${WECHAT.ID}`}
+                class={iconButton + " relative"}
+              >
+                <svg
+                  class="size-full fill-current blend group-hover:fill-pine dark:group-hover:fill-lake-light"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M8.4 3.5C4.48 3.5 1.3 6.22 1.3 9.55c0 1.92 1.04 3.63 2.66 4.76L3.3 17.2l3.02-1.52c.64.18 1.33.28 2.04.28.22 0 .44-.01.65-.03-.12-.42-.19-.86-.19-1.32 0-3.12 2.92-5.65 6.52-5.65.22 0 .43.01.64.03C14.8 6.4 11.9 3.5 8.4 3.5zm.3 3.15a.85.85 0 1 1 0 1.7.85.85 0 0 1 0-1.7zm3.7 0a.85.85 0 1 1 0 1.7.85.85 0 0 1 0-1.7zM15.7 9.2c-3.18 0-5.75 2.2-5.75 4.92 0 2.72 2.57 4.92 5.75 4.92.48 0 .94-.05 1.38-.15l2.5 1.26-.7-2.02c1.18-.84 1.94-2.12 1.94-3.51 0-2.72-2.57-4.92-5.82-4.92H15.7zm-1.55 3.35a.72.72 0 1 1 0 1.44.72.72 0 0 1 0-1.44zm3.12 0a.72.72 0 1 1 0 1.44.72.72 0 0 1 0-1.44z" />
+                </svg>
+                <span
+                  id="wechat-copy-status"
+                  class="pointer-events-none absolute bottom-[calc(100%+0.4rem)] left-1/2 z-20 hidden -translate-x-1/2 whitespace-nowrap rounded-md border border-black/10 bg-paper px-2 py-1 font-mono text-[0.65rem] tracking-wide text-black shadow-sm dark:border-white/15 dark:bg-ink-raised dark:text-white"
+                  role="status"
+                  aria-live="polite"
+                ></span>
+              </button>
+
+              <details id="phone-menu" class="relative">
+                <summary
+                  class={iconButton + " cursor-pointer list-none [&::-webkit-details-marker]:hidden"}
+                  aria-label={t(locale, "phone")}
+                  title={t(locale, "phone")}
+                >
+                  <svg
+                    class="size-full fill-none stroke-current blend group-hover:stroke-pine dark:group-hover:stroke-lake-light"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z" />
+                  </svg>
+                </summary>
+                <div
+                  class="absolute bottom-[calc(100%+0.5rem)] right-0 z-20 min-w-56 rounded-lg border border-black/10 bg-paper p-2 shadow-sm dark:border-white/15 dark:bg-ink-raised"
+                  role="menu"
+                >
+                  {PHONES.map((phone) => (
+                    <a
+                      href={phone.href}
+                      role="menuitem"
+                      class="flex items-center gap-3 rounded-md px-2.5 py-2 text-sm blend hover:bg-paper-sunken dark:hover:bg-ink-soft"
+                    >
+                      <span class="text-base leading-none" aria-hidden="true">{phone.flag}</span>
+                      <span class="flex min-w-0 flex-col">
+                        <span class="meta">{phoneLabels[phone.id]}</span>
+                        <span class="font-mono text-[0.8rem] tracking-wide text-black dark:text-white">
+                          {phone.display}
+                        </span>
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </details>
+
+              <a
+                href={EMAIL.HREF}
+                aria-label={`${t(locale, "email")} — ${EMAIL.TEXT}`}
+                title={EMAIL.TEXT}
+                class={iconButton}
+              >
+                <svg
+                  class="size-full fill-current blend group-hover:fill-pine dark:group-hover:fill-lake-light"
+                >
+                  <use href="/social.svg#email" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  </div>
+</footer>
+
+<style>
+  #phone-menu[open] summary {
+    background-color: rgb(var(--surface-sunken));
+  }
+</style>
+
+<script is:inline>
+  function goBackToTop(event) {
+    event.preventDefault()
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
+  function initializeBackToTop() {
+    const backToTop = document.getElementById("back-to-top")
+    backToTop?.addEventListener("click", goBackToTop)
+  }
+
+  function initializePhoneMenu() {
+    const menu = document.getElementById("phone-menu")
+    if (!(menu instanceof HTMLDetailsElement)) return
+
+    function onPointerDown(event) {
+      if (!(event.target instanceof Node)) return
+      if (!menu.contains(event.target)) menu.removeAttribute("open")
+    }
+
+    document.addEventListener("pointerdown", onPointerDown)
+  }
+
+  function initializeWeChatCopy() {
+    const button = document.getElementById("wechat-copy")
+    const status = document.getElementById("wechat-copy-status")
+    if (!(button instanceof HTMLButtonElement)) return
+    if (button.dataset.bound === "true") return
+    button.dataset.bound = "true"
+
+    let hideTimer = 0
+
+    function showStatus(text) {
+      if (!(status instanceof HTMLElement)) return
+      status.textContent = text
+      status.classList.remove("hidden")
+      window.clearTimeout(hideTimer)
+      hideTimer = window.setTimeout(() => status.classList.add("hidden"), 2200)
+    }
+
+    async function copyId() {
+      const id = button.dataset.wechatId || ""
+      try {
+        await navigator.clipboard.writeText(id)
+        showStatus(button.dataset.copied || id)
+      } catch {
+        try {
+          const input = document.createElement("input")
+          input.value = id
+          document.body.appendChild(input)
+          input.select()
+          document.execCommand("copy")
+          input.remove()
+          showStatus(button.dataset.copied || id)
+        } catch {
+          showStatus(button.dataset.failed || id)
+        }
+      }
+    }
+
+    button.addEventListener("click", copyId)
+  }
+
+  document.addEventListener("astro:after-swap", initializeBackToTop)
+  document.addEventListener("astro:after-swap", initializePhoneMenu)
+  document.addEventListener("astro:after-swap", initializeWeChatCopy)
+  initializeBackToTop()
+  initializePhoneMenu()
+  initializeWeChatCopy()
+</script>

@@ -1,0 +1,84 @@
+---
+import { LOCALES, OG_LOCALE } from "@i18n/config"
+import { getCanonicalUrl, getLocaleFromUrl, hreflangLinks } from "@i18n/utils"
+
+interface Props {
+  title: string
+  description: string
+  image?: string
+  keywords?: string[]
+}
+
+const { title, description, image = "/open-graph.jpg", keywords = [] } = Astro.props
+
+const site = Astro.site ?? Astro.url
+const locale = getLocaleFromUrl(Astro.url)
+
+/**
+ * Canonical points at this page's own locale URL, and the hreflang cluster
+ * lists every locale plus x-default. Together these stop the three language
+ * variants being read as duplicate content.
+ */
+const canonicalURL = getCanonicalUrl(Astro.url.pathname, site)
+const alternates = hreflangLinks(Astro.url.pathname, site)
+
+const imageURL = new URL(image, site).href
+/** Other locales, for og:locale:alternate. */
+const alternateOgLocales = LOCALES.filter((item) => item !== locale).map(
+  (item) => OG_LOCALE[item],
+)
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
+<meta name="generator" content={Astro.generator} />
+
+<meta name="theme-color" content="#F8F9F6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#17221C" media="(prefers-color-scheme: dark)" />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Hreflang language cluster -->
+{alternates.map(({ hreflang, href }) => (
+  <link rel="alternate" hreflang={hreflang} href={href} />
+))}
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+{keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:locale" content={OG_LOCALE[locale]} />
+{alternateOgLocales.map((value) => (
+  <meta property="og:locale:alternate" content={value} />
+))}
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageURL} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={imageURL} />
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title={title} href={new URL("rss.xml", Astro.site ?? Astro.url).href} />
+
+<!-- Global Scripts -->
+<script is:inline src="/js/theme.js"></script>
+<script is:inline src="/js/scroll.js"></script>
+<script is:inline src="/js/animate.js"></script>
+<script defer is:inline src="/js/cursor.js"></script>
+<script defer is:inline src="/js/copy.js"></script>

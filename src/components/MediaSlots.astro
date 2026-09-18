@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from "astro:content"
+import AudioPlayer from "@components/AudioPlayer.astro"
+import MediaGallery from "@components/MediaGallery.astro"
+import { t } from "@i18n/ui"
+import { getLocaleFromUrl } from "@i18n/utils"
+
+type Props = {
+  entry: CollectionEntry<"blog"> | CollectionEntry<"projects">
+}
+
+const { entry } = Astro.props
+const { audio, gallery, reserveMedia } = entry.data
+const locale = getLocaleFromUrl(Astro.url)
+const show = reserveMedia || audio.length > 0 || gallery.length > 0
+---
+
+{
+  show && (
+    <section class="mt-12 space-y-4" aria-label={`${t(locale, "mediaAudio")} / ${t(locale, "mediaGallery")}`}>
+      <AudioPlayer tracks={audio} reserve={reserveMedia} />
+      <MediaGallery images={gallery} reserve={reserveMedia} slots={2} />
+    </section>
+  )
+}

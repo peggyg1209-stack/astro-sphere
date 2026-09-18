@@ -1,0 +1,20 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content"
+import LegalPage from "@views/LegalPage.astro"
+import { PREFIXED_LOCALES } from "@i18n/config"
+
+export async function getStaticPaths() {
+  const docs = await getCollection("legal")
+  return PREFIXED_LOCALES.flatMap((lang) =>
+    docs.map((doc) => ({
+      params: { lang, slug: doc.slug },
+      props: doc,
+    })),
+  )
+}
+
+type Props = CollectionEntry<"legal">
+const doc = Astro.props
+---
+
+<LegalPage doc={doc} />

@@ -1,0 +1,406 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * ------------------------------------------------------------------
+ * Design tokens
+ * ------------------------------------------------------------------
+ * Light  : 米灰纸质亮底 (#F8F9F6) + 深墨绿正文 (#17221C)
+ * Dark   : 深墨绿底 + 纸色正文 (same ink-green family, never pure black)
+ * Accent : 松柏绿 (#2E6358) → 湖蓝 (#477585) 超微渐变
+ *          Only ever surfaces on: border micro-glow, cursor-follow glow,
+ *          and hover transitions. Never as a flat fill.
+ */
+:root {
+  --copy-btn-margin: 10px;
+
+  --paper: 248 249 246;
+  --paper-raised: 252 252 250;
+  --paper-sunken: 241 243 238;
+  --ink: 23 34 28;
+  --ink-soft: 36 51 41;
+
+  --pine: 46 99 88;
+  --lake: 71 117 133;
+
+  /* Surface + copy resolved per theme */
+  --surface: var(--paper);
+  --surface-raised: var(--paper-raised);
+  --surface-sunken: var(--paper-sunken);
+  --copy: var(--ink);
+
+  /* Noise texture strength — 1.5% opacity per spec */
+  --noise-opacity: 0.015;
+
+  /* Hairline / edge strength */
+  --edge: 23 34 28;
+  --edge-opacity: 0.12;
+
+  /* Cursor-follow glow position, updated by /js/cursor.js */
+  --mx: 50%;
+  --my: 0%;
+  --glow-strength: 0;
+}
+
+html.dark {
+  --surface: var(--ink);
+  --surface-raised: 29 42 35;
+  --surface-sunken: 18 27 22;
+  --copy: var(--paper);
+
+  /* Noise reads slightly stronger over dark ink to keep the matte grain */
+  --noise-opacity: 0.022;
+
+  --edge: 248 249 246;
+  --edge-opacity: 0.16;
+}
+
+@layer base {
+  html {
+    overflow-y: scroll;
+    color-scheme: light;
+    background-color: rgb(var(--surface));
+    /* 思源宋体 leads the stack; Cormorant carries Latin display separately */
+    @apply font-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    @apply h-full w-full antialiased;
+    background-color: rgb(var(--surface));
+    color: rgb(var(--copy) / 0.78);
+  }
+
+  body {
+    @apply relative flex flex-col;
+  }
+
+  main {
+    @apply flex flex-col flex-1;
+    background-color: rgb(var(--surface));
+  }
+
+  /* Latin numerals + metadata default to mono for the industrial-matte voice */
+  code,
+  kbd,
+  samp,
+  pre {
+    @apply font-mono;
+  }
+}
+
+/**
+ * ------------------------------------------------------------------
+ * 2.3 Paper noise texture
+ * ------------------------------------------------------------------
+ * A single fixed grain layer over the whole document at 1.5% opacity.
+ * feTurbulence gives the fibrous handmade-paper tooth; blending it against
+ * the matte ink base is what removes the "shiny plastic" feel.
+ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 220px 220px;
+}
+
+@media print {
+  body::before {
+    display: none;
+  }
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Chrome: header / footer hairlines
+ * ------------------------------------------------------------------
+ */
+header {
+  @apply border-b;
+  @apply transition-all duration-500;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+header:not(.scrolled) {
+  @apply bg-transparent border-transparent;
+}
+
+header.scrolled {
+  background-color: rgb(var(--surface) / 0.82);
+  border-color: rgb(var(--edge) / var(--edge-opacity));
+  @apply backdrop-blur-md;
+}
+
+/* Pine→lake hairline that only reveals itself once the header is pinned */
+header.scrolled::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--pine) / 0) 0%,
+    rgb(var(--pine) / 0.45) 30%,
+    rgb(var(--lake) / 0.45) 70%,
+    rgb(var(--lake) / 0) 100%
+  );
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Typography
+ * ------------------------------------------------------------------
+ */
+.page-heading {
+  @apply text-3xl md:text-4xl font-semibold leading-tight;
+  color: rgb(var(--copy));
+}
+
+/* Large Latin display headings — Cormorant Garamond */
+.display {
+  @apply font-display font-semibold tracking-tight;
+  color: rgb(var(--copy));
+  font-feature-settings: "liga" 1, "dlig" 1;
+}
+
+/* Metadata / status microcopy — JetBrains Mono.
+   0.68 alpha keeps this clearly secondary while staying legible at 12px,
+   which matters for CJK glyphs at small sizes. */
+.meta {
+  @apply font-mono text-xs uppercase;
+  letter-spacing: 0.08em;
+  color: rgb(var(--copy) / 0.68);
+}
+
+/* Prose colours come from the typography plugin config (tailwind.config.mjs),
+   which is wired to the same CSS variables and so flips with html.dark. */
+article {
+  @apply prose max-w-full pb-12;
+}
+
+article :is(h1, h2, h3, h4, h5, h6) {
+  @apply font-serif;
+}
+
+article img {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: block;
+  margin: 0 auto;
+  @apply rounded-lg;
+}
+
+.blend {
+  @apply transition-all duration-300;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/**
+ * ------------------------------------------------------------------
+ * 2.2 Pine→lake micro-gradient treatments
+ * ------------------------------------------------------------------
+ */
+
+/* Gradient hairline border, revealed on hover. Uses a masked padding box so
+   the fill underneath stays flat matte paper. */
+.edge-glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.edge-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgb(var(--pine) / 0.55) 0%,
+    rgb(var(--lake) / 0.55) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.edge-glow:hover::before,
+.edge-glow:focus-visible::before,
+.edge-glow:focus-within::before {
+  opacity: 1;
+}
+
+/* Cursor-follow glow. Reads --mx/--my set by /js/cursor.js and paints an
+   extremely soft pine→lake bloom that tracks the pointer. */
+.cursor-glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.cursor-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  /* `isolation: isolate` on the parent keeps this above the parent background
+     but below in-flow content, so copy never sits under the bloom. */
+  z-index: -1;
+  opacity: var(--glow-strength, 0);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  background: radial-gradient(
+    16rem circle at var(--mx) var(--my),
+    rgb(var(--pine) / 0.14) 0%,
+    rgb(var(--lake) / 0.09) 40%,
+    transparent 70%
+  );
+}
+
+.cursor-glow:hover::after {
+  opacity: 1;
+}
+
+/* Text that carries the KV gradient — reserved for the hero mark only */
+.kv-text {
+  background: linear-gradient(115deg, rgb(var(--pine)) 0%, rgb(var(--lake)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Scroll reveal (drives public/js/animate.js)
+ * ------------------------------------------------------------------
+ */
+.animate {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate,
+  .animate.show {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .cursor-glow::after {
+    display: none;
+  }
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Code copy button
+ * ------------------------------------------------------------------
+ */
+.copy-cnt {
+  @apply absolute w-full;
+  top: var(--copy-btn-margin);
+}
+
+.copy-btn {
+  @apply w-[30px] fixed;
+  left: calc(100% - var(--copy-btn-margin));
+  transform: translateX(-100%);
+}
+
+.copy-svg {
+  @apply w-full aspect-square opacity-60 hover:opacity-90;
+  color: rgb(var(--paper));
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Forms — minimal matte inputs (consult booking)
+ * ------------------------------------------------------------------
+ */
+.field {
+  @apply w-full rounded-md px-3 py-2 text-sm;
+  @apply transition-all duration-300;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: rgb(var(--surface-raised));
+  border: 1px solid rgb(var(--edge) / var(--edge-opacity));
+  color: rgb(var(--copy));
+}
+
+.field::placeholder {
+  color: rgb(var(--copy) / 0.4);
+}
+
+.field:focus {
+  outline: none;
+  border-color: rgb(var(--pine) / 0.6);
+  box-shadow: 0 0 0 3px rgb(var(--pine) / 0.1);
+}
+
+.field:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.field-label {
+  @apply font-mono text-[0.7rem] uppercase;
+  letter-spacing: 0.08em;
+  color: rgb(var(--copy) / 0.6);
+}
+
+/**
+ * ------------------------------------------------------------------
+ * Media slots — shared frame for cover / audio / gallery
+ * ------------------------------------------------------------------
+ * Empty and filled states use the same radius, border, and fill so a
+ * reserved slot and a finished asset sit on the same grid.
+ */
+.media-slot {
+  @apply relative m-0 overflow-hidden rounded-lg;
+  background-color: rgb(var(--surface-sunken) / 0.55);
+  border: 1px dashed rgb(var(--edge) / calc(var(--edge-opacity) + 0.04));
+}
+
+.media-slot.is-filled {
+  border-style: solid;
+  border-color: rgb(var(--edge) / var(--edge-opacity));
+}
+
+.media-slot-label {
+  @apply meta pointer-events-none absolute left-3 top-3 z-10;
+}
+
+.media-slot-empty {
+  @apply flex h-full w-full items-center justify-center;
+}

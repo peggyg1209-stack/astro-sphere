@@ -1,0 +1,311 @@
+---
+/**
+ * Hero key-visual: abstract fusion of signal and terrain.
+ *
+ * One faint horizon polyline (peak) + a low sine (wave) sit under a grid of
+ * nodes and dashed traces. The pine→lake gradient is stroke-only. Cheap:
+ *   - one inline SVG, no JS / canvas / images
+ *   - composited transforms only
+ *   - artwork tiled twice so a -50% pan loops without a seam
+ */
+const TILE = 1440
+const SPAN = TILE * 2
+
+function sine(baseline: number, amplitude: number, period: number): string {
+  const repeats = SPAN / period
+  let d = `M0 ${baseline}`
+  for (let i = 0; i < repeats; i += 1) {
+    d += ` c${period * 0.25} ${-amplitude} ${period * 0.75} ${amplitude} ${period} 0`
+  }
+  return d
+}
+
+function polyline(points: [number, number][]): string {
+  const shifted = points.slice(1).map(([x, y]) => [x + TILE, y] as [number, number])
+  return `M${[...points, ...shifted].map(([x, y]) => `${x} ${y}`).join(" L")}`
+}
+
+/** Sparse abstract ridge — a single stroke, not a filled landscape. */
+const horizonFar = polyline([
+  [0, 176],
+  [140, 138],
+  [260, 164],
+  [420, 98],
+  [560, 148],
+  [720, 112],
+  [880, 158],
+  [1040, 108],
+  [1200, 146],
+  [TILE, 176],
+])
+
+const horizon = polyline([
+  [0, 210],
+  [180, 168],
+  [320, 196],
+  [480, 128],
+  [640, 176],
+  [800, 142],
+  [980, 188],
+  [1140, 154],
+  [TILE, 210],
+])
+
+/** Abstract fir marks sitting on the near ridge. */
+function pine(x: number, y: number, height: number): string {
+  const crown = height * 0.78
+  return [
+    `M${x} ${y} L${x} ${y - height * 0.18}`,
+    `M${x - height * 0.22} ${y - height * 0.2} L${x} ${y - crown} L${x + height * 0.22} ${y - height * 0.2}`,
+    `M${x - height * 0.32} ${y - height * 0.02} L${x} ${y - height * 0.48} L${x + height * 0.32} ${y - height * 0.02}`,
+  ].join(" ")
+}
+
+const pineMarks = [
+  { x: 96, y: 198, h: 28 },
+  { x: 248, y: 182, h: 22 },
+  { x: 512, y: 148, h: 34 },
+  { x: 776, y: 156, h: 26 },
+  { x: 1008, y: 182, h: 20 },
+  { x: 1264, y: 168, h: 30 },
+]
+
+const pines = [
+  ...pineMarks.map((mark) => pine(mark.x, mark.y, mark.h)),
+  ...pineMarks.map((mark) => pine(mark.x + TILE, mark.y, mark.h)),
+]
+
+type Node = { x: number; y: number }
+const nodes: Node[] = [
+  { x: 120, y: 72 },
+  { x: 280, y: 48 },
+  { x: 430, y: 96 },
+  { x: 620, y: 36 },
+  { x: 790, y: 84 },
+  { x: 970, y: 44 },
+  { x: 1140, y: 92 },
+  { x: 1320, y: 58 },
+  { x: 200, y: 140 },
+  { x: 510, y: 118 },
+  { x: 860, y: 132 },
+  { x: 1210, y: 124 },
+]
+
+const traces: [Node, Node][] = [
+  [nodes[0], nodes[1]],
+  [nodes[1], nodes[2]],
+  [nodes[1], nodes[4]],
+  [nodes[3], nodes[4]],
+  [nodes[4], nodes[5]],
+  [nodes[5], nodes[6]],
+  [nodes[6], nodes[7]],
+  [nodes[0], nodes[8]],
+  [nodes[2], nodes[9]],
+  [nodes[4], nodes[10]],
+  [nodes[6], nodes[11]],
+]
+
+function tileNodes(list: Node[]): Node[] {
+  return [...list, ...list.map((node) => ({ x: node.x + TILE, y: node.y }))]
+}
+---
+
+<div class="hero-motion" aria-hidden="true">
+  <svg viewBox={`0 0 ${TILE} 360`} preserveAspectRatio="xMidYMax slice" focusable="false">
+    <defs>
+      <linearGradient id="kv-line" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="rgb(var(--pine))" />
+        <stop offset="100%" stop-color="rgb(var(--lake))" />
+      </linearGradient>
+      <pattern id="kv-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+        <circle cx="1" cy="1" r="0.7" fill="rgb(var(--pine))" />
+      </pattern>
+    </defs>
+
+    <rect class="grid" width={SPAN} height="360" fill="url(#kv-grid)" />
+
+    <g class="drift mesh">
+      {traces.map(([a, b]) => (
+        <line
+          class="trace"
+          x1={a.x}
+          y1={a.y}
+          x2={b.x}
+          y2={b.y}
+          stroke="url(#kv-line)"
+        />
+      ))}
+      {traces.map(([a, b]) => (
+        <line
+          class="trace"
+          x1={a.x + TILE}
+          y1={a.y}
+          x2={b.x + TILE}
+          y2={b.y}
+          stroke="url(#kv-line)"
+        />
+      ))}
+      {tileNodes(nodes).map((node, index) => (
+        <g class="node" transform={`translate(${node.x} ${node.y})`}>
+          <circle
+            class="pulse"
+            r="10"
+            fill="none"
+            stroke="url(#kv-line)"
+            style={`animation-delay: ${(index % 5) * 0.7}s`}
+          />
+          <circle r="2.2" fill="url(#kv-line)" />
+        </g>
+      ))}
+    </g>
+
+    <g class="drift horizon-far">
+      <path d={horizonFar} fill="none" stroke="url(#kv-line)" />
+    </g>
+    <g class="drift horizon">
+      <path d={horizon} fill="none" stroke="url(#kv-line)" />
+      {pines.map((d) => (
+        <path d={d} fill="none" stroke="url(#kv-line)" />
+      ))}
+    </g>
+
+    <g class="drift signal">
+      <path d={sine(268, 10, 280)} fill="none" stroke="url(#kv-line)" />
+    </g>
+    <g class="drift signal-b">
+      <path d={sine(292, 7, 200)} fill="none" stroke="url(#kv-line)" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .hero-motion {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 4%,
+      #000 22%,
+      #000 78%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 4%,
+      #000 22%,
+      #000 78%,
+      transparent 100%
+    );
+  }
+
+  .hero-motion svg {
+    display: block;
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    width: 200%;
+    height: min(82%, 46rem);
+  }
+
+  .grid {
+    opacity: 0.1;
+  }
+
+  .trace {
+    stroke-width: 0.8;
+    stroke-dasharray: 4 7;
+    stroke-linecap: round;
+    opacity: 0.28;
+    animation: kv-dash 18s linear infinite;
+  }
+
+  .horizon-far path {
+    stroke-width: 0.9;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.22;
+  }
+
+  .horizon path {
+    stroke-width: 1.15;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.4;
+  }
+
+  .signal path,
+  .signal-b path {
+    stroke-width: 1;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.32;
+  }
+
+  .pulse {
+    stroke-width: 0.7;
+    opacity: 0.35;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: kv-pulse 4.8s ease-out infinite;
+  }
+
+  :global(html.dark) .grid { opacity: 0.16; }
+  :global(html.dark) .trace { opacity: 0.4; }
+  :global(html.dark) .horizon-far path { opacity: 0.32; }
+  :global(html.dark) .horizon path { opacity: 0.52; }
+  :global(html.dark) .signal path,
+  :global(html.dark) .signal-b path { opacity: 0.42; }
+
+  .mesh {
+    animation: kv-pan 80s linear infinite;
+  }
+  .horizon-far {
+    animation: kv-pan 140s linear infinite;
+  }
+  .horizon {
+    animation: kv-pan 110s linear infinite;
+  }
+  .signal {
+    animation: kv-pan-reverse 26s linear infinite, kv-bob 8s ease-in-out infinite;
+  }
+  .signal-b {
+    animation: kv-pan 18s linear infinite, kv-bob 6.5s ease-in-out infinite reverse;
+  }
+
+  @keyframes kv-pan {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+  @keyframes kv-pan-reverse {
+    from { transform: translate3d(-50%, 0, 0); }
+    to { transform: translate3d(0, 0, 0); }
+  }
+  @keyframes kv-bob {
+    from, to { translate: 0 0; }
+    50% { translate: 0 -5px; }
+  }
+  @keyframes kv-dash {
+    to { stroke-dashoffset: -110; }
+  }
+  @keyframes kv-pulse {
+    0% { transform: scale(0.4); opacity: 0.45; }
+    70% { transform: scale(1.6); opacity: 0; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mesh,
+    .horizon-far,
+    .horizon,
+    .signal,
+    .signal-b,
+    .trace,
+    .pulse {
+      animation: none;
+    }
+  }
+</style>

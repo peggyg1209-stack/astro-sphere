@@ -1,0 +1,150 @@
+---
+import type { CollectionEntry } from "astro:content"
+import { t } from "@i18n/ui"
+import { getLocaleFromUrl, localizePath } from "@i18n/utils"
+import { formatDate, readingTime } from "@lib/utils"
+
+type Props = {
+  entry: CollectionEntry<"projects"> | CollectionEntry<"blog">
+}
+
+const { entry } = Astro.props
+const { collection, data, body } = entry
+const { title, summary, date, cover, reserveMedia } = data
+const locale = getLocaleFromUrl(Astro.url)
+
+const demoUrl = collection === "projects" ? data.demoUrl : null
+const repoUrl = collection === "projects" ? data.repoUrl : null
+const backHref = localizePath(`/${collection}/`, locale)
+const backLabel = collection === "blog" ? t(locale, "blogs") : t(locale, "projects")
+---
+
+<div>
+  <a
+    href={backHref}
+    class="edge-glow group w-fit p-1.5 gap-1.5 text-sm flex items-center border rounded hover:bg-paper-sunken dark:hover:bg-ink-soft border-black/15 dark:border-white/20 blend"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="stroke-current group-hover:stroke-pine dark:group-hover:stroke-lake-light blend"
+    >
+      <line
+        x1="19"
+        y1="12"
+        x2="5"
+        y2="12"
+        class="scale-x-0 group-hover:scale-x-100 translate-x-3 group-hover:translate-x-0 transition-all duration-300 ease-paper"
+      />
+      <polyline
+        points="12 19 5 12 12 5"
+        class="translate-x-1 group-hover:translate-x-0 transition-all duration-300 ease-paper"
+      />
+    </svg>
+    <div class="w-full group-hover:text-black dark:group-hover:text-white blend">
+      {t(locale, "backTo")} {backLabel}
+    </div>
+  </a>
+
+  <div class="flex flex-wrap mt-12 gap-x-4 gap-y-2">
+    <div class="meta flex items-center gap-2">
+      <svg class="size-4 stroke-current">
+        <use href="/ui.svg#calendar" />
+      </svg>
+      {formatDate(date, locale)}
+    </div>
+    <div class="meta flex items-center gap-2">
+      <svg class="size-4 stroke-current">
+        <use href="/ui.svg#book-open" />
+      </svg>
+      {readingTime(body, t(locale, "minRead"))}
+    </div>
+  </div>
+
+  <h1 class="text-3xl md:text-4xl font-semibold text-black dark:text-white mt-3 leading-tight">
+    {title}
+  </h1>
+  <div class="mt-2 text-lg opacity-80">
+    {summary}
+  </div>
+
+  {
+    (demoUrl || repoUrl) && (
+      <div class="mt-5 flex flex-wrap gap-2">
+        {demoUrl && (
+          <a
+            href={demoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="edge-glow group flex gap-2 items-center px-3 py-1.5 truncate rounded text-sm border border-black/15 dark:border-white/20 hover:bg-paper-sunken dark:hover:bg-ink-soft blend"
+          >
+            <svg class="size-4">
+              <use
+                href="/ui.svg#globe"
+                class="fill-current group-hover:fill-pine dark:group-hover:fill-lake-light blend"
+              />
+            </svg>
+            <span class="text-current group-hover:text-black dark:group-hover:text-white blend">
+              {t(locale, "seeDemo")}
+            </span>
+          </a>
+        )}
+        {repoUrl && (
+          <a
+            href={repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="edge-glow group flex gap-2 items-center px-3 py-1.5 truncate rounded text-sm border border-black/15 dark:border-white/20 hover:bg-paper-sunken dark:hover:bg-ink-soft blend"
+          >
+            <svg class="size-4">
+              <use
+                href="/ui.svg#link"
+                class="fill-current group-hover:fill-pine dark:group-hover:fill-lake-light blend"
+              />
+            </svg>
+            <span class="text-current group-hover:text-black dark:group-hover:text-white blend">
+              {t(locale, "seeRepo")}
+            </span>
+          </a>
+        )}
+      </div>
+    )
+  }
+
+  {/* Reserved lead-image slot — fixed 16:9 whether filled or empty, so every
+      project and post opens with the same silhouette. */}
+  {
+    cover ? (
+      <figure class="media-slot is-filled mt-8">
+        <span class="media-slot-label">{t(locale, "mediaCover")}</span>
+        <img
+          src={cover.src}
+          alt={cover.alt}
+          loading="eager"
+          decoding="async"
+          class="m-0 block aspect-[16/9] w-full object-cover p-0"
+        />
+        {cover.caption && (
+          <figcaption class="meta normal-case border-t border-black/10 px-3 py-2 dark:border-white/15">
+            {cover.caption}
+          </figcaption>
+        )}
+      </figure>
+    ) : (
+      reserveMedia && (
+        <div class="media-slot mt-8 aspect-[16/9]">
+          <span class="media-slot-label">{t(locale, "mediaCover")}</span>
+          <div class="media-slot-empty">
+            <span class="meta">{t(locale, "mediaImageReserved")}</span>
+          </div>
+        </div>
+      )
+    )
+  }
+</div>

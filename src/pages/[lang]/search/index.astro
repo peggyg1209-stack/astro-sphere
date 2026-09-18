@@ -1,0 +1,10 @@
+---
+import SearchPage from "@views/SearchPage.astro"
+import { PREFIXED_LOCALES } from "@i18n/config"
+
+export function getStaticPaths() {
+  return PREFIXED_LOCALES.map((lang) => ({ params: { lang } }))
+}
+---
+
+<SearchPage />

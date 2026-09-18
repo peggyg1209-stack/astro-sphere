@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from "astro:content"
+import PageLayout from "@layouts/PageLayout.astro"
+import TopLayout from "@layouts/TopLayout.astro"
+import BottomLayout from "@layouts/BottomLayout.astro"
+import ArticleTopLayout from "@layouts/ArticleTopLayout.astro"
+import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro"
+import ContactSection from "@components/ContactSection.astro"
+
+type Props = {
+  project: CollectionEntry<"projects">
+}
+
+const { project } = Astro.props
+const { title, summary } = project.data
+---
+
+<PageLayout title={title} description={summary}>
+  <TopLayout>
+    <div class="animate">
+      <ArticleTopLayout entry={project} />
+    </div>
+  </TopLayout>
+  <BottomLayout>
+    <div class="animate">
+      <ArticleBottomLayout entry={project} />
+    </div>
+    {/* Every project ends with the same contact block */}
+    <div class="animate">
+      <ContactSection divided />
+    </div>
+  </BottomLayout>
+</PageLayout>

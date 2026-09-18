@@ -1,0 +1,131 @@
+---
+import { SITE } from "@consts"
+import { LOCALES, LOCALE_LABEL, HREFLANG } from "@i18n/config"
+import { t } from "@i18n/ui"
+import {
+  getLocaleFromUrl,
+  isNavActive,
+  localizePath,
+  navHref,
+  stripLocalePrefix,
+} from "@i18n/utils"
+import { cn } from "@lib/utils"
+
+const locale = getLocaleFromUrl(Astro.url)
+const { pathname } = Astro.url
+
+/** Same fixed order as the header: Home → Projects → Blogs. */
+const links = [
+  { text: t(locale, "home"), href: navHref(locale, "home") },
+  { text: t(locale, "projects"), href: navHref(locale, "projects") },
+  { text: t(locale, "blogs"), href: navHref(locale, "blog") },
+]
+
+const searchHref = localizePath("/search/", locale)
+const stripped = stripLocalePrefix(pathname)
+
+const iconButton = cn(
+  "size-9 rounded-full p-2 flex items-center justify-center",
+  "bg-transparent hover:bg-paper-sunken dark:hover:bg-ink-soft",
+  "stroke-current hover:stroke-pine dark:hover:stroke-lake-light",
+  "border border-black/10 dark:border-white/20",
+  "blend",
+)
+---
+
+<div
+  id="drawer"
+  class="fixed inset-0 z-40 flex h-0 flex-col items-center justify-center overflow-hidden bg-paper transition-[height] duration-500 ease-paper dark:bg-ink md:hidden"
+>
+  <nav class="flex flex-col items-center space-y-2">
+    {
+      links.map((link) => (
+        <a
+          href={link.href}
+          aria-current={isNavActive(pathname, link.href) ? "page" : undefined}
+          class={cn(
+            "flex items-center justify-center rounded-full px-4 py-1.5",
+            "text-current hover:text-black dark:hover:text-white",
+            "hover:bg-paper-sunken dark:hover:bg-ink-soft",
+            "blend",
+            isNavActive(pathname, link.href)
+              ? "pointer-events-none bg-black text-white dark:bg-white dark:text-black"
+              : "",
+          )}
+        >
+          {link.text}
+        </a>
+      ))
+    }
+  </nav>
+
+  <nav class="mt-6 flex gap-1" aria-label={t(locale, "langSwitch")}>
+    {
+      LOCALES.map((item) => (
+        <a
+          href={localizePath(stripped, item)}
+          hreflang={HREFLANG[item]}
+          lang={HREFLANG[item]}
+          aria-current={item === locale ? "page" : undefined}
+          class={cn(
+            "flex h-8 min-w-8 items-center justify-center rounded-full px-2",
+            "font-mono text-[0.7rem] font-medium uppercase tracking-wider",
+            "blend",
+            item === locale
+              ? "pointer-events-none bg-black text-white dark:bg-white dark:text-black"
+              : "hover:bg-paper-sunken dark:hover:bg-ink-soft",
+          )}
+        >
+          {LOCALE_LABEL[item]}
+        </a>
+      ))
+    }
+  </nav>
+
+  <div class="mt-6 flex gap-1">
+    <a
+      href={searchHref}
+      aria-label={`${t(locale, "searchAria")} — ${SITE.TITLE}`}
+      class={cn(
+        iconButton,
+        isNavActive(pathname, searchHref)
+          ? "pointer-events-none bg-black text-white dark:bg-white dark:text-black"
+          : "",
+      )}
+    >
+      <svg class="size-full">
+        <use href="/ui.svg#search"></use>
+      </svg>
+    </a>
+
+    <a
+      href="/rss.xml"
+      target="_blank"
+      aria-label={`${t(locale, "rssFeed")} — ${SITE.TITLE}`}
+      class={iconButton}
+    >
+      <svg class="size-full">
+        <use href="/ui.svg#rss"></use>
+      </svg>
+    </a>
+
+    <button
+      id="drawer-theme-button"
+      aria-label={t(locale, "toggleTheme")}
+      class={iconButton}
+    >
+      <svg class="block size-full dark:hidden">
+        <use href="/ui.svg#sun"></use>
+      </svg>
+      <svg class="hidden size-full dark:block">
+        <use href="/ui.svg#moon"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  #drawer.open {
+    @apply h-full;
+  }
+</style>

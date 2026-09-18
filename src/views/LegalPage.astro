@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from "astro:content"
+import PageLayout from "@layouts/PageLayout.astro"
+import TopLayout from "@layouts/TopLayout.astro"
+import BottomLayout from "@layouts/BottomLayout.astro"
+import { formatDate } from "@lib/utils"
+import { t } from "@i18n/ui"
+import { getLocaleFromUrl } from "@i18n/utils"
+
+type Props = {
+  doc: CollectionEntry<"legal">
+}
+
+const { doc } = Astro.props
+const { title, date } = doc.data
+const { Content } = await doc.render()
+const locale = getLocaleFromUrl(Astro.url)
+---
+
+<PageLayout title={title} description={`${title} — ${t(locale, "siteTitle")}`}>
+  <TopLayout>
+    <div class="animate">
+      <div class="page-heading">
+        {title}
+      </div>
+      <p class="meta mt-2">
+        {t(locale, "lastUpdated")}: {formatDate(date, locale)}
+      </p>
+    </div>
+  </TopLayout>
+  <BottomLayout>
+    <article class="animate">
+      <Content/>
+    </article>
+  </BottomLayout>
+</PageLayout>
