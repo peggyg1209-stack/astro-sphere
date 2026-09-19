@@ -37,14 +37,12 @@ const projectSlots = Array.from(
     <HeroMotion />
 
     <div class="relative z-10 w-full max-w-screen-md px-5 py-16 text-center md:py-20">
-      <p class="animate meta">
-        {t(locale, "heroGreeting")}
-      </p>
-
-      {/* Latin wordmark in Cormorant Garamond; the KV gradient never fills it,
-          it only tracks the cursor across this section and lights the rules. */}
+      {/* Studio wordmark: JUNARK in Cormorant; 钧澜 in Noto Serif SC. Layout unchanged. */}
       <h1
-        class="animate display mt-4 text-5xl leading-[1.05] sm:text-6xl md:text-7xl"
+        class:list={[
+          "animate mt-4 text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl",
+          locale === "zh" ? "font-serif" : "font-display",
+        ]}
       >
         {t(locale, "heroName")}
       </h1>
@@ -83,7 +81,7 @@ const projectSlots = Array.from(
 
   <div class="relative">
     <div class="mx-auto max-w-screen-md space-y-32 px-5 pb-24 pt-8 md:pt-12">
-      {/* ------------------------------------------------------- Projects */}
+      {/* ------------------------------------------------------- Services */}
       <section id="projects" class="animate scroll-mt-24">
         <div class="flex items-baseline justify-between gap-4">
           <h2 class="text-2xl font-semibold text-black dark:text-white">

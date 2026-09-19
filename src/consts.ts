@@ -1,9 +1,9 @@
 import type { Site, Page, Socials } from "@types"
 
 export const SITE: Site = {
-  TITLE: "Peggy Gao",
-  DESCRIPTION: "Portfolio, projects, and writing by Peggy Gao.",
-  AUTHOR: "Peggy Gao",
+  TITLE: "JUNARK",
+  DESCRIPTION: "JUNARK — a strategic advisory and practice studio for advanced manufacturing going global.",
+  AUTHOR: "JUNARK",
 }
 
 export const BLOG: Page = {
@@ -12,13 +12,13 @@ export const BLOG: Page = {
 }
 
 export const PROJECTS: Page = {
-  TITLE: "Projects",
-  DESCRIPTION: "Recent projects I have worked on.",
+  TITLE: "Services",
+  DESCRIPTION: "Services for advanced manufacturing going global.",
 }
 
 export const SEARCH: Page = {
   TITLE: "Search",
-  DESCRIPTION: "Search all posts and projects by keyword.",
+  DESCRIPTION: "Search all posts and services by keyword.",
 }
 
 /**

@@ -16,7 +16,7 @@ import BrandLockup from "@components/BrandLockup.astro"
 const locale = getLocaleFromUrl(Astro.url)
 const { pathname } = Astro.url
 
-/** Fixed order per spec: Home → Projects → Blogs. */
+/** Fixed order per spec: Home → Services → Blogs. */
 const links = [
   { text: t(locale, "home"), href: navHref(locale, "home") },
   { text: t(locale, "projects"), href: navHref(locale, "projects") },

@@ -14,7 +14,7 @@ import { cn } from "@lib/utils"
 const locale = getLocaleFromUrl(Astro.url)
 const { pathname } = Astro.url
 
-/** Same fixed order as the header: Home → Projects → Blogs. */
+/** Same fixed order as the header: Home → Services → Blogs. */
 const links = [
   { text: t(locale, "home"), href: navHref(locale, "home") },
   { text: t(locale, "projects"), href: navHref(locale, "projects") },

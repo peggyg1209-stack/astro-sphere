@@ -4,15 +4,36 @@ In years spent around foreign-invested and privately owned manufacturing markets
 
 As the AI wave carries exporters out to sea, website and search work should sit higher on the list than they usually do. Industrial buying is never impulse. It is a long, exacting chain of trust. At the point where search is being remade — from keyword bidding to large models — the old export-site stack is failing fast. The base corpora of the leading models are filled almost to the brim with overseas vertical directories. The few English homepages Chinese manufacturing brands do have are thick with unstructured, machine-opaque “Chinglish,” and strict firewalls sometimes stop the very crawlers AI systems trust. Factories with real technical and product strength still never appear in the dialogue when an overseas sourcing engineer asks a model for a given spec, or for a like-for-like alternative. **Not being seen, and not being trusted as a source, by the outside world and by AI — that is the large gap in Chinese manufacturing going abroad today.**
 
-## Offer: a manufacturing-focused SEO + GEO product, with a walk-alongside plan
+## Offer: GTM citation and digital infrastructure for advanced manufacturing
 
-Against that fact, working with leading domestic manufacturing consultants and a digital engineering team, the work is concentrated into a generative-engine optimization system built for manufacturing going abroad (GEO and SEO as a dual drive). Deep industrial parameters, process barriers, and the firm's trust assets are distilled into structured entities (schema knowledge graphs), so that a company's real edge can be defined as a baseline answer in Gemini, Perplexity, ChatGPT, and the major overseas search engines. This includes, without being limited to:<br>
+Overseas demand generation in manufacturing is shifting from generic search traffic to being cited as the answer in large models. Working with a domestic industrial advisory bench and a senior engineering network, we build an end-to-end going-abroad system for China's advanced manufacturing and hard-tech firms — covering strategic positioning, underlying architecture, engineering corpus, and standing operations. Opaque specialist language is deposited as canonical answers in Gemini, Perplexity, ChatGPT, and the major overseas engines.
 
-**Trust audit of overseas AI sourcing engines**: end-to-end tests of the major models against industry-core prompts, mapping the firm's blind spots in generative search, and handing over a clear list of what blocks trust — with a repair schedule.<br>
-**Industrial entity and RAG reconstruction for trust**: the core infrastructure job. Site-wide industrial semantics in JSON-LD schema; materials grades, tolerances, and process parameters structured; authoritative mapping into overseas industrial directories; a dedicated whitelist path for compliant AI crawlers, so a cold product page becomes knowledge a machine can read with certainty.
-**Ongoing GEO citation hold**: standing maintenance as the algorithms move. Native-level industrial technical writing and high-weight placements, to hold and grow the firm's share of recommended citations in model answers.
+### Overseas GTM citation audit and strategy
+
+**AI citation gap audit**: simulate core overseas procurement and engineering-selection prompts, test leading models end-to-end on how often the firm — and its competitors — are recommended, and hand over a clear list of what blocks citation.
+
+**Channel and narrative**: stop scattershot publishing. For overseas R&D and procurement decision-makers, a content roadmap and distribution plan that fits European and US industrial buying standards.
+
+**Goals and return**: oriented to a Tier-1 shortlist in Europe and the US, with quantified entity-visibility targets on the generative web.
+
+### Industrial entity and RAG reconstruction
+
+**Industrial schema graph**: site-wide JSON-LD — Organization, Product, Certification, QuantitativeValue — so opaque parameters become standard.
+
+**Open the data black box**: recast closed selection manuals and drawings as high-fact-density HTML parameter matrices that machines can read at speed.
+
+**Align with global industrial authorities**: a dedicated whitelist crawl path for compliant AI crawlers, and unique-entity mapping into ThomasNet, GlobalSpec, Wikidata, and other overseas industrial directories.
+
+### Native engineering content operations and closed-loop monitoring
+
+**Native engineering use cases**: writers with overseas engineering backgrounds turn shop-floor process into technical white papers and application notes that overseas engineers actually read.
+
+**Full-stack CMS and channel publishing**: from technical topic selection and multilingual review through the site CMS and professional communities (LinkedIn / engineering forums), published on a normalized, automated cadence.
+
+**Citation monitoring and conversion**: a dedicated dashboard tracking Share of AI Voice, citation provenance, and high-intent inquiry paths.
 
 ## One more thing: the edge still being built
 
-Because this reconstruction flow for vertical manufacturing is non-standard, a lighter, self-serve automation platform is being built in parallel. Please watch this space.<br><br>
-Pure code, algorithms, and remote “teaching” will never be the moat of going-abroad service. What is distinct is the closed loop between **rebuilding digital assets online and, offline, cross-border supply chain, local channels, and physical landing. Let AI be the precise feeler that brings demand — including, but not limited to, marketing — and let a front-line industrial network, rooted overseas, carry real commercial performance.**
+Because this reconstruction flow for vertical manufacturing is non-standard, a lighter, self-serve automation platform is being built in parallel. Please watch this space.
+
+Pure code, algorithms, and remote, short-lived “teaching” will never be the moat of going-abroad service. What is distinct is the closed loop between **rebuilding digital assets online and, offline, cross-border supply chain, local channels, and physical landing. Let AI be the precise feeler that brings demand — including, but not limited to, marketing — and let a front-line industrial network, rooted overseas, carry real commercial performance.**
