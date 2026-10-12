@@ -33,7 +33,8 @@ const { title, description, image, keywords } = Astro.props
 const locale = getLocaleFromUrl(Astro.url)
 const siteTitle = t(locale, "siteTitle")
 const staging = isStaging()
-const partnerPassword = import.meta.env.PUBLIC_PARTNER_PREVIEW_PASSWORD
+/** Only forward a real override — an empty Astro prop serializes as `[0]` and breaks Solid hydration. */
+const partnerPassword = import.meta.env.PUBLIC_PARTNER_PREVIEW_PASSWORD?.trim() || undefined
 ---
 
 <!doctype html>
@@ -45,18 +46,32 @@ const partnerPassword = import.meta.env.PUBLIC_PARTNER_PREVIEW_PASSWORD
   <body>
     {
       staging && (
-        <PartnerGate
-          client:load
-          locale={locale}
-          password={partnerPassword}
-          labels={{
-            title: t(locale, "partnerGateTitle"),
-            hint: t(locale, "partnerGateHint"),
-            placeholder: t(locale, "partnerGatePlaceholder"),
-            submit: t(locale, "partnerGateSubmit"),
-            error: t(locale, "partnerGateError"),
-          }}
-        />
+        partnerPassword ? (
+          <PartnerGate
+            client:only="solid-js"
+            locale={locale}
+            password={partnerPassword}
+            labels={{
+              title: t(locale, "partnerGateTitle"),
+              hint: t(locale, "partnerGateHint"),
+              placeholder: t(locale, "partnerGatePlaceholder"),
+              submit: t(locale, "partnerGateSubmit"),
+              error: t(locale, "partnerGateError"),
+            }}
+          />
+        ) : (
+          <PartnerGate
+            client:only="solid-js"
+            locale={locale}
+            labels={{
+              title: t(locale, "partnerGateTitle"),
+              hint: t(locale, "partnerGateHint"),
+              placeholder: t(locale, "partnerGatePlaceholder"),
+              submit: t(locale, "partnerGateSubmit"),
+              error: t(locale, "partnerGateError"),
+            }}
+          />
+        )
       )
     }
     <Header />
