@@ -79,7 +79,9 @@ export function localizedProjectBody(slug: string, locale: Locale, fallback: str
 }
 
 function inlineMarkdown(text: string) {
-  return text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+  return text
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
 }
 
 function headingText(line: string, marker: string) {

@@ -3,18 +3,50 @@ import type { CollectionEntry } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
 import TopLayout from "@layouts/TopLayout.astro"
 import BottomLayout from "@layouts/BottomLayout.astro"
-import { formatDate } from "@lib/utils"
+import { markdownToHtml } from "@lib/project"
 import { t } from "@i18n/ui"
+import type { Locale } from "@i18n/config"
 import { getLocaleFromUrl } from "@i18n/utils"
+
+const legalBodies = import.meta.glob("../i18n/legal-bodies/*.md", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+}) as Record<string, string>
 
 type Props = {
   doc: CollectionEntry<"legal">
 }
 
 const { doc } = Astro.props
-const { title, date } = doc.data
 const { Content } = await doc.render()
 const locale = getLocaleFromUrl(Astro.url)
+
+function localizedTitle(data: CollectionEntry<"legal">["data"], active: Locale) {
+  if (active === "ja") return data.titleJa ?? data.title
+  if (active === "en") return data.titleEn ?? data.title
+  return data.title
+}
+
+function localizedBody(slug: string, active: Locale) {
+  if (active === "zh") return ""
+  const match = Object.entries(legalBodies).find(([path]) =>
+    path.endsWith(`/${slug}.${active}.md`),
+  )
+  return match?.[1] ?? ""
+}
+
+/** Month precision: 2026年10月 / 2026年10月 / October 2026. */
+function formatUpdated(date: Date, active: Locale) {
+  return new Intl.DateTimeFormat(
+    active === "zh" ? "zh-CN" : active === "ja" ? "ja-JP" : "en-US",
+    { year: "numeric", month: "long" },
+  ).format(date)
+}
+
+const title = localizedTitle(doc.data, locale)
+const translated = localizedBody(doc.slug, locale)
+const translatedHtml = translated ? markdownToHtml(translated) : ""
 ---
 
 <PageLayout title={title} description={`${title} — ${t(locale, "siteTitle")}`}>
@@ -23,14 +55,14 @@ const locale = getLocaleFromUrl(Astro.url)
       <div class="page-heading">
         {title}
       </div>
-      <p class="meta mt-2">
-        {t(locale, "lastUpdated")}: {formatDate(date, locale)}
+      <p class="mt-2 font-mono text-xs tracking-[0.08em] text-black/60 normal-case dark:text-white/60">
+        {t(locale, "lastUpdated")}: {formatUpdated(doc.data.date, locale)}
       </p>
     </div>
   </TopLayout>
   <BottomLayout>
     <article class="animate">
-      <Content/>
+      {translatedHtml ? <div set:html={translatedHtml} /> : <Content />}
     </article>
   </BottomLayout>
 </PageLayout>
