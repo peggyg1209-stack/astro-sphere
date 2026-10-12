@@ -21,9 +21,9 @@ type Props = {
 
 export default function PartnerGate(props: Props) {
   const [unlocked, setUnlocked] = createSignal(false)
-  const [ready, setReady] = createSignal(false)
-  const [value, setValue] = createSignal("")
+  const [booted, setBooted] = createSignal(false)
   const [error, setError] = createSignal(false)
+  let inputEl: HTMLInputElement | undefined
 
   const expected = () => props.password?.trim() || DEFAULT_PASSWORD
 
@@ -35,26 +35,34 @@ export default function PartnerGate(props: Props) {
     } catch {
       // ignore
     }
-    setReady(true)
+    setBooted(true)
   })
+
+  const unlock = () => {
+    try {
+      localStorage.setItem(STORAGE_KEY, "1")
+    } catch {
+      // ignore
+    }
+    setError(false)
+    setUnlocked(true)
+  }
 
   const onSubmit = (event: Event) => {
     event.preventDefault()
-    if (value().trim() === expected()) {
-      try {
-        localStorage.setItem(STORAGE_KEY, "1")
-      } catch {
-        // ignore
-      }
-      setError(false)
-      setUnlocked(true)
+    event.stopPropagation()
+    // Read from the DOM so password managers / automation that skip input
+    // events still work (Solid controlled values would stay empty).
+    const typed = (inputEl?.value ?? "").trim()
+    if (typed === expected()) {
+      unlock()
       return
     }
     setError(true)
   }
 
   return (
-    <Show when={ready() && !unlocked()}>
+    <Show when={booted() && !unlocked()}>
       <div
         class="fixed inset-0 z-[80] flex items-center justify-center bg-paper/92 px-5 backdrop-blur-sm dark:bg-ink/92"
         role="dialog"
@@ -78,13 +86,13 @@ export default function PartnerGate(props: Props) {
             </label>
             <input
               id="partner-gate-password"
+              ref={inputEl}
               class="field w-full"
               type="password"
+              name="password"
               autocomplete="current-password"
               placeholder={props.labels.placeholder}
-              value={value()}
-              onInput={(e) => {
-                setValue(e.currentTarget.value)
+              onInput={() => {
                 if (error()) setError(false)
               }}
             />
