@@ -6,4 +6,4 @@
  *
  * `PUBLIC_IS_STAGING=true|false` always wins when set explicitly on the host.
  */
-export const DEPLOY_TRACK: "production" | "partner-preview" = "production"
+export const DEPLOY_TRACK: "production" | "partner-preview" = "partner-preview"
