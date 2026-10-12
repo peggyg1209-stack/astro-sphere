@@ -101,7 +101,10 @@ const projects = defineCollection({
 const legal = defineCollection({
   type: "content",
   schema: z.object({
+    /** Default-locale (zh) title. */
     title: z.string(),
+    titleJa: z.string().optional(),
+    titleEn: z.string().optional(),
     date: z.coerce.date(),
   }),
 })

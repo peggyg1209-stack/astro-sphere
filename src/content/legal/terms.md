@@ -1,27 +1,36 @@
 ---
-title: "Terms of Use"
-date: "03/07/2024"
+title: "服务条款"
+titleJa: "利用規約"
+titleEn: "Terms of Use"
+date: "Oct 01 2026"
 ---
 
-Please read these Terms of Use ("Terms", "Terms of Use") carefully before using the [Your Website URL] website (the "Service") operated by [Your Company Name] ("us", "we", or "our").
+欢迎访问 JUNARK。本网站由本工作室作为独立的跨境战略咨询与实践智库运营。在您浏览本网站或通过表单提交咨询意向之前，请仔细阅读以下条款。访问或使用本网站即表示您同意受本条款约束。
 
-#### Agreement to Terms
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+## 1. 平台性质与信息陈述
 
-#### Intellectual Property Rights
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+**1.1** 本网站旨在呈现我们在先进制造出海数字化、产学研一线研学及学者型跨界探索领域的方法论、案例洞察与服务框架。
 
-#### User Representations
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+**1.2** 网站展示的所有内容（包括但不限于白皮书、行业见解、参数图鉴及研学路线介绍）仅作为专业参考与学术探讨，不构成具有强制约束力的最终商业合同、正式投资建议或法律合规意见。具体的业务范围、交付标准及权责边界均以双方正式签署的书面协议及工作说明书（SOW）为准。
 
-#### Links to Other Websites
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+## 2. 技术交付边界与算法免责声明
 
-#### Termination
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+**2.1** 本工作室所提供的生成式引擎优化及机器可读重构服务，其核心交付物为客观的技术代码部署、实体知识图谱构建与工程标准代审（如 Schema.org 验证、WAF／爬虫通道放行等动作交付）。
 
-#### Governing Law
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+**2.2** 用户知悉并同意：全球主流大语言模型（包括但不限于 ChatGPT、Perplexity、Google AI Overviews、Gemini 等）的检索召回与引文生成算法由第三方平台独立控制，具有客观的模型迭代周期与动态不确定性。本工作室不对第三方 AI 引擎的具体提及率、推荐排名或直接订单转化作任何明示或暗示的商业兜底承诺。
 
-#### Changes to These Terms of Use
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+## 3. 产学研走读与跨界游学
+
+**3.1 特别约定。** 针对「中国产学研一线走读」及「学者型跨界游学」等线下定制项目，网站所列节点（包括高校实验室、工匠工坊、非公开文化场所）属于私密级受邀参访。
+
+**3.2** 本工作室保留根据不可抗力、涉外地缘政策、学术机构突发安排等因素调整具体行程细节的权利，最终参与资格需通过闭门初筛与确认流程。
+
+## 4. 知识产权保护
+
+**4.1** 本网站包含的所有原创文字架构、工业参数重构方法论、图表设计、影音素材及品牌标识，其知识产权均归本工作室及相应权利人所有。
+
+**4.2** 未经书面授权，任何机构或个人不得擅自抓取、镜像、抄袭或用于商业性衍生培训与服务。
+
+## 5. 准据法与争议解决
+
+本条款的解释与履行均适用中华人民共和国法律。在涉及境外线下履约或离岸架构时，遵循相关属地强制性合规法律要求。若因本网站使用发生争议，双方应首先友好协商解决；协商不成的，应提交本工作室主要运营地有管辖权的人民法院裁决。

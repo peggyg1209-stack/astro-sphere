@@ -28,8 +28,8 @@ const { asset, locale } = Astro.props
 
   <div class="relative z-10 flex flex-1 flex-col">
     <div class="flex items-start justify-between gap-3">
-      <p class="meta text-[0.7rem] tracking-[0.14em] text-pine dark:text-lake-light">
-        {asset.coverLabel[locale]}
+      <p class="font-mono text-[0.7rem] tracking-[0.14em] text-pine dark:text-lake-light">
+        {asset.edited[locale]}
       </p>
       <span
         class="shrink-0 rounded border border-pine/25 bg-paper-raised px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-pine dark:border-lake/35 dark:bg-ink-raised dark:text-lake-light"

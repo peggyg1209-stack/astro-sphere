@@ -1,34 +1,17 @@
 ---
-import { getCollection } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
 import TopLayout from "@layouts/TopLayout.astro"
 import BottomLayout from "@layouts/BottomLayout.astro"
-import SearchCollection from "@components/SearchCollection"
 import CornerstoneCard from "@components/CornerstoneCard.astro"
 import NewsletterSubscribe from "@components/NewsletterSubscribe"
-import StagingPreviewSections from "@components/StagingPreviewSections.astro"
 import { CORNERSTONE_ASSETS } from "@data/cornerstones"
 import { t } from "@i18n/ui"
-import { BLOG_TOPICS, localizeTopics, topicKeywords } from "@i18n/topics"
+import { BLOG_TOPICS, topicKeywords } from "@i18n/topics"
 import { getLocaleFromUrl } from "@i18n/utils"
-import { isStaging } from "@lib/env"
 
 const locale = getLocaleFromUrl(Astro.url)
-const staging = isStaging()
-const topics = localizeTopics(BLOG_TOPICS, locale)
 const keywords = topicKeywords(BLOG_TOPICS, locale)
-
-const posts = staging
-  ? (await getCollection("blog"))
-      .filter((post) => !post.data.draft)
-      .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  : []
-
-const estimated_initial_size = 28 + posts.length * 158 + Math.max(posts.length - 1, 0) * 12
-
-const pageDescription = staging
-  ? t(locale, "blogDescription")
-  : t(locale, "blogComingSoonDescription")
+const pageDescription = t(locale, "blogComingSoonDescription")
 ---
 
 <PageLayout title={t(locale, "blogs")} description={pageDescription} keywords={keywords}>
@@ -52,72 +35,37 @@ const pageDescription = staging
         {t(locale, "blogs")}
       </h1>
       <div class="mt-2 opacity-75">
-        {staging ? t(locale, "stagingBlogHint") : t(locale, "blogComingSoonDescription")}
+        {pageDescription}
       </div>
     </div>
   </TopLayout>
   <BottomLayout>
-    {
-      staging ? (
-        <div class="space-y-16">
-          <StagingPreviewSections locale={locale} />
-
-          <div
-            id="search-collection-wrapper"
-            class="animate"
-            style={{ minHeight: `${estimated_initial_size}px` }}
-          >
-            <SearchCollection
-              client:load
-              entry_name={t(locale, "posts")}
-              topics={topics}
-              data={posts}
-              locale={locale}
-              labels={{
-                tags: t(locale, "tags"),
-                showing: t(locale, "showing"),
-                of: t(locale, "of"),
-                ascending: t(locale, "ascending"),
-                descending: t(locale, "descending"),
-                placeholder: t(locale, "searchPosts"),
-              }}
-            />
-          </div>
+    <div class="animate space-y-12">
+      {/*
+        The architecture / partner / diagnosis block is removed.
+        The lower band keeps three homepage-style cards, aligned to the end
+        of the column the way the homepage blog row sits.
+      */}
+      <div class="flex justify-end">
+        <div class="grid w-full gap-4 md:grid-cols-3">
+          {CORNERSTONE_ASSETS.map((asset) => (
+            <CornerstoneCard asset={asset} locale={locale} />
+          ))}
         </div>
-      ) : (
-        <div class="animate space-y-12">
-          <div>
-            <h2
-              class:list={[
-                "text-xl font-semibold text-black dark:text-white md:text-2xl",
-                locale === "en" ? "font-display" : "font-serif",
-              ]}
-            >
-              {t(locale, "cornerstoneSectionTitle")}
-            </h2>
-            <p class="mt-2 opacity-75">{t(locale, "cornerstoneSectionHint")}</p>
+      </div>
 
-            <div class="mt-6 grid gap-5 md:grid-cols-3">
-              {CORNERSTONE_ASSETS.map((asset) => (
-                <CornerstoneCard asset={asset} locale={locale} />
-              ))}
-            </div>
-          </div>
-
-          <NewsletterSubscribe
-            client:load
-            locale={locale}
-            labels={{
-              title: t(locale, "newsletterTitle"),
-              hint: t(locale, "newsletterHint"),
-              placeholder: t(locale, "newsletterPlaceholder"),
-              submit: t(locale, "newsletterSubmit"),
-              success: t(locale, "newsletterSuccess"),
-              invalid: t(locale, "newsletterInvalid"),
-            }}
-          />
-        </div>
-      )
-    }
+      <NewsletterSubscribe
+        client:load
+        locale={locale}
+        labels={{
+          title: t(locale, "newsletterTitle"),
+          hint: t(locale, "newsletterHint"),
+          placeholder: t(locale, "newsletterPlaceholder"),
+          submit: t(locale, "newsletterSubmit"),
+          success: t(locale, "newsletterSuccess"),
+          invalid: t(locale, "newsletterInvalid"),
+        }}
+      />
+    </div>
   </BottomLayout>
 </PageLayout>
