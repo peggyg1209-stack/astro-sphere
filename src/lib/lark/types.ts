@@ -32,7 +32,13 @@ export interface ConsultSubmission {
   consent: boolean
 }
 
-export const CONSULT_TOPICS = ["consulting", "collaboration", "speaking", "other"] as const
+export const CONSULT_TOPICS = [
+  "digital-export",
+  "industry-field-study",
+  "cross-boundary-study",
+  "think-tank-cocreation",
+  "other-collaboration",
+] as const
 export type ConsultTopic = (typeof CONSULT_TOPICS)[number]
 
 /**

@@ -74,7 +74,7 @@ src/lib/lark/client.ts    src/lib/lark/server.ts           bitable records/creat
   "name": "张三",
   "contact": "zhangsan@example.com",
   "company": "示例公司",
-  "topic": "consulting",
+  "topic": "digital-export",
   "message": "想聊一下品牌站改版。",
   "preferredDate": "2026-10-08",
   "locale": "zh",
