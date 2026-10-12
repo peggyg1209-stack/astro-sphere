@@ -1,0 +1,122 @@
+---
+import type { Locale } from "@i18n/config"
+import { t } from "@i18n/ui"
+
+type Props = {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+
+const pillars = [
+  {
+    title: t(locale, "stagingArchPillar1Title"),
+    body: t(locale, "stagingArchPillar1Body"),
+  },
+  {
+    title: t(locale, "stagingArchPillar2Title"),
+    body: t(locale, "stagingArchPillar2Body"),
+  },
+  {
+    title: t(locale, "stagingArchPillar3Title"),
+    body: t(locale, "stagingArchPillar3Body"),
+  },
+]
+
+const partners = [
+  t(locale, "stagingPartnerSlot1"),
+  t(locale, "stagingPartnerSlot2"),
+  t(locale, "stagingPartnerSlot3"),
+]
+
+const steps = [
+  t(locale, "stagingCaseStep1"),
+  t(locale, "stagingCaseStep2"),
+  t(locale, "stagingCaseStep3"),
+  t(locale, "stagingCaseStep4"),
+]
+---
+
+<section class="animate space-y-14 border-t border-black/10 pt-12 dark:border-white/15">
+  {/* Business architecture */}
+  <div>
+    <p class="meta tracking-[0.14em] text-pine dark:text-lake-light">
+      {t(locale, "stagingPreviewEyebrow")}
+    </p>
+    <h2
+      class:list={[
+        "mt-2 text-2xl font-semibold text-black dark:text-white md:text-3xl",
+        locale === "en" ? "font-display" : "font-serif",
+      ]}
+    >
+      {t(locale, "stagingArchTitle")}
+    </h2>
+    <p class="mt-2 max-w-2xl opacity-75">{t(locale, "stagingArchHint")}</p>
+
+    <ul class="mt-6 grid list-none gap-4 pl-0 sm:grid-cols-3">
+      {
+        pillars.map((pillar) => (
+          <li class="rounded-lg border border-black/10 p-4 dark:border-white/15">
+            <h3 class="font-semibold text-black dark:text-white">{pillar.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed opacity-75">{pillar.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  {/* Co-created with strategic partners */}
+  <div>
+    <p class="meta tracking-[0.14em] text-pine dark:text-lake-light">
+      {t(locale, "stagingPartnersEyebrow")}
+    </p>
+    <h2
+      class:list={[
+        "mt-2 text-2xl font-semibold text-black dark:text-white md:text-3xl",
+        locale === "en" ? "font-display" : "font-serif",
+      ]}
+    >
+      {t(locale, "stagingPartnersTitle")}
+    </h2>
+    <p class="mt-2 max-w-2xl opacity-75">{t(locale, "stagingPartnersHint")}</p>
+
+    <ul class="mt-6 grid list-none gap-3 pl-0 sm:grid-cols-3">
+      {
+        partners.map((label) => (
+          <li class="flex min-h-[7rem] items-center justify-center rounded-lg border border-dashed border-black/20 px-4 text-center text-sm opacity-70 dark:border-white/25">
+            {label}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  {/* Case diagnosis framework */}
+  <div>
+    <p class="meta tracking-[0.14em] text-pine dark:text-lake-light">
+      {t(locale, "stagingCaseEyebrow")}
+    </p>
+    <h2
+      class:list={[
+        "mt-2 text-2xl font-semibold text-black dark:text-white md:text-3xl",
+        locale === "en" ? "font-display" : "font-serif",
+      ]}
+    >
+      {t(locale, "stagingCaseTitle")}
+    </h2>
+    <p class="mt-2 max-w-2xl opacity-75">{t(locale, "stagingCaseHint")}</p>
+
+    <ol class="mt-6 space-y-3 list-none pl-0">
+      {
+        steps.map((step, index) => (
+          <li class="flex gap-3 rounded-lg border border-black/10 p-4 dark:border-white/15">
+            <span class="font-mono text-sm text-pine dark:text-lake-light">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span class="text-sm leading-relaxed opacity-80">{step}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
