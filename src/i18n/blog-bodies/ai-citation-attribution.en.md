@@ -1,4 +1,4 @@
-Rank Harvest’s citation tracing, and Deloitte’s work on AI trust architecture, point to the same filter. When a model writes a commercial recommendation, it scores confidence and drops what fails the bar. In manufacturing it will not cite a brochure that only praises the company. It wants a dense set of facts that more than one source can confirm.
+When a model writes a commercial recommendation, it scores confidence and drops what fails the bar. In manufacturing it will not cite a brochure that only praises the company. It wants a dense set of facts that more than one source can confirm.
 
 ## 1. The citation map models use when they source a plant
 

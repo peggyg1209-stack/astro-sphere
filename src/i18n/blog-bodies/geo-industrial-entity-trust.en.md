@@ -1,6 +1,6 @@
 In *The Age of GEO*, Deloitte is explicit: large language models are rebuilding the front door of the web. The old path — type a keyword, scan the blue links, click through to a website — is breaking down. AI engines now compose the answer itself. Digital procurement worldwide is entering a zero-click era.
 
-A new generation of industrial buyers in Europe and North America is leaving Google ads and directory yellow pages. They ask ChatGPT or Perplexity directly, often in a sentence this specific: “Find an Asian precision-parts alternative that meets ISO 13485, with five-axis machining held to ±0.005 mm.” If a plant has no entity in the model’s training corpus or in the live sources used for retrieval, it is absent from the global shortlist.
+A new generation of industrial buyers is leaving Google ads and directory yellow pages. They ask ChatGPT or Perplexity directly, often in a sentence this specific: “Find an Asian precision-parts alternative that meets ISO 13485, with five-axis machining held to ±0.005 mm.” If a plant has no entity in the model’s training corpus or in the live sources used for retrieval, it is absent from the global shortlist.
 
 ## 1. Why classic industrial SEO fails in the AI era
 
