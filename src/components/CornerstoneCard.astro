@@ -1,0 +1,77 @@
+---
+import type { Locale } from "@i18n/config"
+import type { CornerstoneAsset } from "@data/cornerstones"
+import { t } from "@i18n/ui"
+
+type Props = {
+  asset: CornerstoneAsset
+  locale: Locale
+  /** When set, the whole card opens this URL. */
+  href?: string
+  /** Replaces the Coming Soon chip. */
+  badge?: string
+  /** Drop the footer status line. */
+  hideStatus?: boolean
+  /** Slightly smaller title, for long article names. */
+  compact?: boolean
+}
+
+const { asset, locale, href, badge, hideStatus = false, compact = false } = Astro.props
+const Tag = href ? "a" : "article"
+---
+
+<Tag
+  href={href}
+  class:list={[
+    "edge-glow group relative flex h-full flex-col overflow-hidden rounded-lg border border-black/15 p-5 blend dark:border-white/20 md:p-6",
+    href && "hover:bg-paper-sunken/40 dark:hover:bg-ink-soft/40",
+  ]}
+  aria-labelledby={`cornerstone-${asset.id}`}
+>
+  <div
+    class="pointer-events-none absolute inset-0 bg-gradient-to-br from-paper via-paper to-paper-sunken opacity-90 dark:from-ink dark:via-ink dark:to-ink-soft"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute -right-8 -top-10 h-36 w-36 rounded-full bg-kv-gradient opacity-[0.12] blur-2xl"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="relative z-10 flex flex-1 flex-col">
+    <div class="flex items-start justify-between gap-3">
+      <p class="font-mono text-[0.7rem] tracking-[0.14em] text-pine dark:text-lake-light">
+        {asset.edited[locale]}
+      </p>
+      <span
+        class="shrink-0 rounded border border-pine/25 bg-paper-raised px-2 py-0.5 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-pine dark:border-lake/35 dark:bg-ink-raised dark:text-lake-light"
+      >
+        {badge ?? t(locale, "comingSoonBadge")}
+      </span>
+    </div>
+
+    <h2
+      id={`cornerstone-${asset.id}`}
+      class:list={[
+        "mt-4 font-semibold text-black dark:text-white",
+        compact ? "text-balance text-[1.05rem] leading-snug md:text-lg" : "text-xl leading-snug md:text-2xl",
+        locale === "en" ? "font-display" : "font-serif",
+      ]}
+    >
+      {asset.title[locale]}
+    </h2>
+
+    <p class:list={["mt-3 text-sm leading-relaxed opacity-75 md:text-[0.95rem]", compact && "text-pretty", !hideStatus && "flex-1"]}>
+      {asset.summary[locale]}
+    </p>
+
+    {
+      !hideStatus && (
+        <p class="meta mt-5 border-t border-black/10 pt-3 opacity-60 dark:border-white/15">
+          {t(locale, "comingSoonStatus")}
+        </p>
+      )
+    }
+  </div>
+</Tag>

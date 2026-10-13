@@ -1,28 +1,50 @@
 ---
-title: "Privacy Policy"
-date: "03/07/2024"
+title: "隐私政策"
+titleJa: "プライバシーポリシー"
+titleEn: "Privacy Policy"
+date: "Oct 01 2026"
 ---
 
-This Privacy Policy governs the manner in which [Your Company Name] collects, uses, maintains, and discloses information collected from users (each, a "User") of the [Your Website URL] website ("Site"). This privacy policy applies to the Site and all products and services offered by [Your Company Name].
+本工作室深知个人与企业商业信息的重要性，并严格遵守适用法域的个人信息保护要求（包括中国《个人信息保护法》（PIPL）、欧盟 GDPR 的基础规范，以及日本《个人情报保护法》（APPI））。本政策说明我们如何收集、使用和保护您通过本网站提交的信息。
 
-#### Personal identification information
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+## 1. 我们收集的信息范围
 
-#### Non-personal identification information
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+为了响应您的预约请求并提供精准的初步诊断方案，我们仅通过网站联络表单收集您主动提供的最小必要信息：
 
-#### Web browser cookies
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+**1.1 基础联络信息。** 您的姓名、企业电子邮箱、电话或即时通讯账号。
 
-#### How we use collected information
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+**1.2 企业与业务信息。** 您的企业名称、所属细分行业、出海目标市场（如北美、欧洲、日本、东南亚等）。
 
-#### How we protect your information
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+**1.3 需求与技术线索。** 您提交的核心诉求描述、拟诊断的独立站网址（URL）或技术参数概况。
 
-#### Sharing your personal information
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+**1.4** 本网站不设置强制注册机制，亦不主动索取您的银行卡账户等敏感金融凭据。
 
-#### Changes to this privacy policy
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet massa ut neque consequat congue. Sed id ipsum vitae sem imperdiet suscipit. Nulla facilisi. Morbi quis nibh at nunc pulvinar rhoncus. Proin porttitor dapibus dolor, id fermentum urna eleifend et. In feugiat pretium erat nec vestibulum.
+## 2. 信息的使用目的
 
+我们收集上述信息的目的仅限于：
+
+**2.1** 为您提供约定的「15 分钟海外 AI 采信盲区速测」及技术体检简报。
+
+**2.2** 就您选择的咨询类型（出海基建、产学研走读、跨界游学、智库共创等）安排专属顾问沟通与排期对齐。
+
+**2.3** 评估线下私密走读与高阶研学的参会资格匹配度。
+
+**2.4** 向您发送由本工作室联合撰写的最新出海行业白皮书或技术趋势报告（您可随时选择拒收）。
+
+## 3. 商业机密与数据安全承诺
+
+**3.1 严格保密。** 针对您在技术体检或需求沟通中提交的工艺参数、未公开料号及独立站架构信息，我们视同商业秘密予以保护，未经许可绝不向公域披露。
+
+**3.2 不买卖数据。** 我们绝不会将您的个人或企业数据出售、出租或非法共享给任何第三方商业数据中介机构。
+
+**3.3 必要的技术协同共享。** 仅在为您交付具体技术实施（如调用海外合规监测工具）或安排境外研学接待所必需的前提下，在最小授权范围内向受保密义务约束的联合技术伙伴或现地接待方同步必要信息。
+
+## 4. Cookie 与技术日志
+
+**4.1** 我们仅使用保障网站基础运行、安全防护及统计基础访问流量所必需的轻量 Cookie 或解析工具。
+
+**4.2** 我们不会利用跟踪脚本对您进行跨站追踪画像或推送侵扰性广告。
+
+## 5. 您的权利与联络通道
+
+根据适用法律，您对您的个人信息享有查阅、更正、要求删除或撤回同意的权利。若您需要撤回已提交的预约信息或对本政策有任何疑问，请通过邮箱 [peggyg1209@gmail.com](mailto:peggyg1209@gmail.com) 与我们联系。我们承诺在收到您的书面申请后 3 个工作日内予以核实并处理。

@@ -3,19 +3,18 @@ import { getCollection } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
 import ArrowCard from "@components/ArrowCard"
 import ContactSection from "@components/ContactSection.astro"
+import BlogCoverGrid from "@components/BlogCoverGrid.astro"
 import HeroMotion from "@components/HeroMotion.astro"
+import NewsletterSubscribe from "@components/NewsletterSubscribe"
 import { t } from "@i18n/ui"
 import { getLocaleFromUrl, localizePath } from "@i18n/utils"
+import { isStaging } from "@lib/env"
 
 const locale = getLocaleFromUrl(Astro.url)
+const staging = isStaging()
 
 /** Three reserved project slots, filled newest-first and padded with holds. */
 const PROJECT_SLOTS = 3
-
-const posts = (await getCollection("blog"))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3)
 
 const projects = (await getCollection("projects"))
   .filter((project) => !project.data.draft)
@@ -126,13 +125,27 @@ const projectSlots = Array.from(
           </a>
         </div>
 
-        <ul class="mt-5 space-y-4 list-none pl-0">
-          {posts.map((post) => (
-            <li>
-              <ArrowCard entry={post} locale={locale} />
-            </li>
-          ))}
-        </ul>
+        <div class="mt-5">
+          <BlogCoverGrid />
+        </div>
+        {
+          !staging && (
+            <div class="mt-6">
+              <NewsletterSubscribe
+                client:load
+                locale={locale}
+                labels={{
+                  title: t(locale, "newsletterTitle"),
+                  hint: t(locale, "newsletterHint"),
+                  placeholder: t(locale, "newsletterPlaceholder"),
+                  submit: t(locale, "newsletterSubmit"),
+                  success: t(locale, "newsletterSuccess"),
+                  invalid: t(locale, "newsletterInvalid"),
+                }}
+              />
+            </div>
+          )
+        }
       </section>
 
       {/* --------------------------------------------- Send me a message */}

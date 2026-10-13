@@ -35,10 +35,11 @@ export const BITABLE_FIELDS = {
 
 /** Single-select option labels, so the table reads natively in Chinese. */
 export const TOPIC_LABELS: Record<ConsultTopic, string> = {
-  consulting: "咨询",
-  collaboration: "合作",
-  speaking: "演讲 / 分享",
-  other: "其他",
+  "digital-export": "出海数字化",
+  "industry-field-study": "产业走读",
+  "cross-boundary-study": "跨界游学",
+  "think-tank-cocreation": "智库共创",
+  "other-collaboration": "其他合作",
 }
 
 export const LOCALE_LABELS: Record<Locale, string> = {

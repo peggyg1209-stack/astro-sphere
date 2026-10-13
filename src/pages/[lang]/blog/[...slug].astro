@@ -4,7 +4,9 @@ import BlogPostPage from "@views/BlogPostPage.astro"
 import { PREFIXED_LOCALES } from "@i18n/config"
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog")
+  const posts = (await getCollection("blog")).filter(
+    (post) => !post.data.draft && post.data.pinned,
+  )
   return PREFIXED_LOCALES.flatMap((lang) =>
     posts.map((post) => ({
       params: { lang, slug: post.slug },

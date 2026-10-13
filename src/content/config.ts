@@ -72,6 +72,10 @@ const blog = defineCollection({
     date: z.coerce.date(),
     tags: z.array(z.string()),
     draft: z.boolean().optional(),
+    /** Shown as a pinned 洞见 cover on the blog index and homepage. */
+    pinned: z.boolean().optional(),
+    /** Order among pinned covers. Lower comes first. */
+    pinOrder: z.number().optional(),
     ...localizedCopyFields,
     ...mediaFields,
   }),
@@ -101,7 +105,10 @@ const projects = defineCollection({
 const legal = defineCollection({
   type: "content",
   schema: z.object({
+    /** Default-locale (zh) title. */
     title: z.string(),
+    titleJa: z.string().optional(),
+    titleEn: z.string().optional(),
     date: z.coerce.date(),
   }),
 })

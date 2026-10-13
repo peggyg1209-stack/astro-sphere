@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content"
+import CornerstoneCard from "@components/CornerstoneCard.astro"
+import { CORNERSTONE_ASSETS, type CornerstoneAsset } from "@data/cornerstones"
+import { t } from "@i18n/ui"
+import type { Locale } from "@i18n/config"
+import { getLocaleFromUrl, localizePath } from "@i18n/utils"
+import { localizedEntryCopy } from "@lib/project"
+
+const locale = getLocaleFromUrl(Astro.url)
+
+function editedLabel(date: Date, active: Locale) {
+  return new Intl.DateTimeFormat(
+    active === "zh" ? "zh-CN" : active === "ja" ? "ja-JP" : "en-US",
+    { year: "numeric", month: "long" },
+  ).format(date)
+}
+
+const insights = (await getCollection("blog"))
+  .filter((post) => post.data.pinned && !post.data.draft)
+  .sort((a, b) => (a.data.pinOrder ?? 0) - (b.data.pinOrder ?? 0))
+
+const holds = CORNERSTONE_ASSETS.filter((asset) => asset.id !== "insights")
+
+const insightCards: { asset: CornerstoneAsset; href: string }[] = insights.map((post) => {
+  const copy = localizedEntryCopy(post, locale)
+  return {
+    href: localizePath(`/blog/${post.slug}/`, locale),
+    asset: {
+      id: post.slug,
+      title: { zh: copy.title, ja: copy.title, en: copy.title },
+      summary: { zh: copy.summary, ja: copy.summary, en: copy.summary },
+      edited: {
+        zh: editedLabel(post.data.date, "zh"),
+        ja: editedLabel(post.data.date, "ja"),
+        en: editedLabel(post.data.date, "en"),
+      },
+    },
+  }
+})
+---
+
+<div class="space-y-4">
+  <div class="grid items-stretch gap-4 md:grid-cols-2">
+    {
+      insightCards.map(({ asset, href }) => (
+        <CornerstoneCard
+          asset={asset}
+          locale={locale}
+          href={href}
+          badge={t(locale, "insightBadge")}
+          hideStatus
+          compact
+        />
+      ))
+    }
+  </div>
+
+  <div class="grid items-stretch gap-4 md:grid-cols-2">
+    {holds.map((asset) => <CornerstoneCard asset={asset} locale={locale} />)}
+  </div>
+</div>

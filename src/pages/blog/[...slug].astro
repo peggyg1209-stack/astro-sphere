@@ -3,7 +3,9 @@ import { type CollectionEntry, getCollection } from "astro:content"
 import BlogPostPage from "@views/BlogPostPage.astro"
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog")
+  const posts = (await getCollection("blog")).filter(
+    (post) => !post.data.draft && post.data.pinned,
+  )
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: post,
