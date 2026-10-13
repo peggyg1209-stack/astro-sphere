@@ -3,10 +3,9 @@ import { getCollection } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
 import ArrowCard from "@components/ArrowCard"
 import ContactSection from "@components/ContactSection.astro"
-import CornerstoneCard from "@components/CornerstoneCard.astro"
+import BlogCoverGrid from "@components/BlogCoverGrid.astro"
 import HeroMotion from "@components/HeroMotion.astro"
 import NewsletterSubscribe from "@components/NewsletterSubscribe"
-import { CORNERSTONE_ASSETS } from "@data/cornerstones"
 import { t } from "@i18n/ui"
 import { getLocaleFromUrl, localizePath } from "@i18n/utils"
 import { isStaging } from "@lib/env"
@@ -126,10 +125,8 @@ const projectSlots = Array.from(
           </a>
         </div>
 
-        <div class="mt-5 grid gap-4 md:grid-cols-3">
-          {CORNERSTONE_ASSETS.map((asset) => (
-            <CornerstoneCard asset={asset} locale={locale} />
-          ))}
+        <div class="mt-5">
+          <BlogCoverGrid />
         </div>
         {
           !staging && (

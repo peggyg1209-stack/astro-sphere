@@ -105,7 +105,8 @@ export const ui = {
     mediaUnsupported: "你的浏览器不支持音频播放。",
 
     // Production blog cold-start
-    blogComingSoonDescription: "三份基石资产即将在 2026 Q4 正式发布。订阅即可第一时间获取完整报告。",
+    blogComingSoonDescription: "不定期持续发布，订阅即可第一时间获取完整报告。",
+    insightBadge: "洞见",
     comingSoonBadge: "即将发布",
     comingSoonStatus: "即将在 2026 Q4 发布 (Coming Soon)",
     newsletterTitle: "优先阅读名单",
@@ -251,7 +252,8 @@ export const ui = {
     mediaUnsupported: "お使いのブラウザは音声再生に対応していません。",
 
     // Production blog cold-start
-    blogComingSoonDescription: "3つの基石アセットは 2026 Q4 に正式公開予定です。購読で公開と同時にフルレポートを受け取れます。",
+    blogComingSoonDescription: "不定期に継続して公開します。購読すると、公開と同時に全文をお届けします。",
+    insightBadge: "洞察",
     comingSoonBadge: "近日公開",
     comingSoonStatus: "2026 Q4 公開予定 (Coming Soon)",
     newsletterTitle: "優先リーディングリスト",
@@ -397,7 +399,8 @@ export const ui = {
     mediaUnsupported: "Your browser does not support audio playback.",
 
     // Production blog cold-start
-    blogComingSoonDescription: "Three cornerstone assets publish in 2026 Q4. Subscribe to receive the full reports the moment they go live.",
+    blogComingSoonDescription: "Published on an ongoing basis. Subscribe to receive the full report the moment it goes live.",
+    insightBadge: "Insights",
     comingSoonBadge: "Coming Soon",
     comingSoonStatus: "Coming in 2026 Q4 (Coming Soon)",
     newsletterTitle: "Priority reading list",

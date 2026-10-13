@@ -6,12 +6,11 @@ import BottomLayout from "@layouts/BottomLayout.astro"
 import Search from "@components/Search"
 import { t } from "@i18n/ui"
 import { getLocaleFromUrl } from "@i18n/utils"
-import { isStaging } from "@lib/env"
 
 const locale = getLocaleFromUrl(Astro.url)
-const posts = isStaging()
-  ? (await getCollection("blog")).filter((post) => !post.data.draft)
-  : []
+const posts = (await getCollection("blog")).filter(
+  (post) => !post.data.draft && post.data.pinned,
+)
 const projects = (await getCollection("projects")).filter((post) => !post.data.draft)
 const data = [...posts, ...projects] as CollectionEntry<"blog">[]
 ---

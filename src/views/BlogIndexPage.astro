@@ -2,9 +2,8 @@
 import PageLayout from "@layouts/PageLayout.astro"
 import TopLayout from "@layouts/TopLayout.astro"
 import BottomLayout from "@layouts/BottomLayout.astro"
-import CornerstoneCard from "@components/CornerstoneCard.astro"
+import BlogCoverGrid from "@components/BlogCoverGrid.astro"
 import NewsletterSubscribe from "@components/NewsletterSubscribe"
-import { CORNERSTONE_ASSETS } from "@data/cornerstones"
 import { t } from "@i18n/ui"
 import { BLOG_TOPICS, topicKeywords } from "@i18n/topics"
 import { getLocaleFromUrl } from "@i18n/utils"
@@ -46,13 +45,7 @@ const pageDescription = t(locale, "blogComingSoonDescription")
         The lower band keeps three homepage-style cards, aligned to the end
         of the column the way the homepage blog row sits.
       */}
-      <div class="flex justify-end">
-        <div class="grid w-full gap-4 md:grid-cols-3">
-          {CORNERSTONE_ASSETS.map((asset) => (
-            <CornerstoneCard asset={asset} locale={locale} />
-          ))}
-        </div>
-      </div>
+      <BlogCoverGrid />
 
       <NewsletterSubscribe
         client:load
