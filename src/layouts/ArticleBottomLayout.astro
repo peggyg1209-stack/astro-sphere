@@ -17,9 +17,14 @@ const translated =
   locale !== "zh" ? localizedEntryBody(collection, entry.slug, locale, "") : ""
 const translatedHtml = translated ? markdownToHtml(translated) : null
 
-const items = (await getCollection(collection))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+const items =
+  collection === "blog"
+    ? (await getCollection("blog"))
+        .filter((post) => !post.data.draft && post.data.pinned)
+        .sort((a, b) => (a.data.pinOrder ?? 0) - (b.data.pinOrder ?? 0))
+    : (await getCollection("projects"))
+        .filter((post) => !post.data.draft)
+        .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 const index = items.findIndex((x) => x.slug === entry.slug)
 const prev = items[(index - 1 + items.length) % items.length]
 const next = items[(index + 1) % items.length]

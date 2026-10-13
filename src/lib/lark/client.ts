@@ -69,7 +69,7 @@ export function normalizeConsult(
   raw: Record<string, string | undefined>,
   context: { locale: Locale; sourcePath: string },
 ): ConsultSubmission {
-  const topic = CONSULT_TOPICS.find((value) => value === raw.topic) ?? "consulting"
+  const topic = CONSULT_TOPICS.find((value) => value === raw.topic) ?? "digital-export"
 
   return {
     name: raw.name?.trim() ?? "",

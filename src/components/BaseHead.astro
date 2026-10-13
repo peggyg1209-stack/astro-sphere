@@ -1,6 +1,7 @@
 ---
 import { LOCALES, OG_LOCALE } from "@i18n/config"
 import { getCanonicalUrl, getLocaleFromUrl, hreflangLinks } from "@i18n/utils"
+import { isStaging, robotsMetaContent } from "@lib/env"
 
 interface Props {
   title: string
@@ -13,14 +14,19 @@ const { title, description, image = "/open-graph.jpg", keywords = [] } = Astro.p
 
 const site = Astro.site ?? Astro.url
 const locale = getLocaleFromUrl(Astro.url)
+const staging = isStaging()
+const robots = robotsMetaContent()
 
 /**
  * Canonical points at this page's own locale URL, and the hreflang cluster
  * lists every locale plus x-default. Together these stop the three language
  * variants being read as duplicate content.
+ *
+ * Staging / partner-preview skips hreflang + sitemap hints so crawlers that
+ * ignore robots still lack a clean alternate cluster to promote.
  */
 const canonicalURL = getCanonicalUrl(Astro.url.pathname, site)
-const alternates = hreflangLinks(Astro.url.pathname, site)
+const alternates = staging ? [] : hreflangLinks(Astro.url.pathname, site)
 
 const imageURL = new URL(image, site).href
 /** Other locales, for og:locale:alternate. */
@@ -38,10 +44,14 @@ const alternateOgLocales = LOCALES.filter((item) => item !== locale).map(
 <meta name="theme-color" content="#F8F9F6" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#17221C" media="(prefers-color-scheme: dark)" />
 
-<!-- Canonical URL -->
+<!-- Robots: staging partner-preview is never indexed -->
+<meta name="robots" content={robots} />
+{staging && <meta name="googlebot" content="noindex, nofollow" />}
+
+<!-- Canonical URL (kept on staging for share hygiene; robots still block indexing) -->
 <link rel="canonical" href={canonicalURL} />
 
-<!-- Hreflang language cluster -->
+<!-- Hreflang language cluster (production only) -->
 {alternates.map(({ hreflang, href }) => (
   <link rel="alternate" hreflang={hreflang} href={href} />
 ))}
@@ -70,8 +80,8 @@ const alternateOgLocales = LOCALES.filter((item) => item !== locale).map(
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={imageURL} />
 
-<!-- Sitemap -->
-<link rel="sitemap" href="/sitemap-index.xml" />
+<!-- Sitemap (production only — staging robots.txt Disallows the whole host) -->
+{!staging && <link rel="sitemap" href="/sitemap-index.xml" />}
 
 <!-- Global Scripts -->
 <script is:inline src="/js/theme.js"></script>

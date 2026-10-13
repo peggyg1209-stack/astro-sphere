@@ -6,10 +6,11 @@ import { CONSULT_TOPICS } from "@lib/lark/types"
 const locale = getLocaleFromUrl(Astro.url)
 
 const topicLabels = {
-  consulting: t(locale, "topicConsulting"),
-  collaboration: t(locale, "topicCollaboration"),
-  speaking: t(locale, "topicSpeaking"),
-  other: t(locale, "topicOther"),
+  "digital-export": t(locale, "topicDigitalExport"),
+  "industry-field-study": t(locale, "topicIndustryFieldStudy"),
+  "cross-boundary-study": t(locale, "topicCrossBoundaryStudy"),
+  "think-tank-cocreation": t(locale, "topicThinkTankCocreation"),
+  "other-collaboration": t(locale, "topicOtherCollaboration"),
 } as const
 
 const messages = {

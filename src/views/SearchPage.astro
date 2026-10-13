@@ -8,7 +8,9 @@ import { t } from "@i18n/ui"
 import { getLocaleFromUrl } from "@i18n/utils"
 
 const locale = getLocaleFromUrl(Astro.url)
-const posts = (await getCollection("blog")).filter((post) => !post.data.draft)
+const posts = (await getCollection("blog")).filter(
+  (post) => !post.data.draft && post.data.pinned,
+)
 const projects = (await getCollection("projects")).filter((post) => !post.data.draft)
 const data = [...posts, ...projects] as CollectionEntry<"blog">[]
 ---
