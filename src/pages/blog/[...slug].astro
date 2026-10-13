@@ -1,13 +1,11 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content"
 import BlogPostPage from "@views/BlogPostPage.astro"
-import { isStaging } from "@lib/env"
 
 export async function getStaticPaths() {
-  // Production cold-start: fold the public blog into Coming Soon covers only.
-  if (!isStaging()) return []
-
-  const posts = await getCollection("blog")
+  const posts = (await getCollection("blog")).filter(
+    (post) => !post.data.draft && post.data.pinned,
+  )
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: post,

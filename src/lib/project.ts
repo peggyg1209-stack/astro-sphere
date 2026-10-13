@@ -88,16 +88,38 @@ function headingText(line: string, marker: string) {
   return inlineMarkdown(line.slice(marker.length).replace(/<br>\s*$/i, "").trim())
 }
 
-/** Loose markdown for project translations: headings, bold, existing HTML. */
+/** Loose markdown for translations: headings, lists, quotes, bold, links. */
 export function markdownToHtml(source: string) {
   const html: string[] = []
   let para: string[] = []
+  let list: string[] = []
+  let quote: string[] = []
 
-  const flush = () => {
+  const flushPara = () => {
     const text = para.join("\n").trim()
     para = []
     if (!text) return
     html.push(`<p>${inlineMarkdown(text).replace(/\n/g, "<br>\n")}</p>`)
+  }
+
+  const flushList = () => {
+    if (!list.length) return
+    html.push(`<ul>${list.map((item) => `<li>${inlineMarkdown(item)}</li>`).join("")}</ul>`)
+    list = []
+  }
+
+  const flushQuote = () => {
+    if (!quote.length) return
+    html.push(
+      `<blockquote><p>${quote.map((line) => inlineMarkdown(line)).join("<br>\n")}</p></blockquote>`,
+    )
+    quote = []
+  }
+
+  const flush = () => {
+    flushPara()
+    flushList()
+    flushQuote()
   }
 
   for (const line of source.replace(/\r\n/g, "\n").split("\n")) {
@@ -111,10 +133,24 @@ export function markdownToHtml(source: string) {
       html.push(`<h2>${headingText(line, "## ")}</h2>`)
       continue
     }
+    if (line.startsWith("- ") || line.startsWith("* ")) {
+      flushPara()
+      flushQuote()
+      list.push(line.slice(2).trim())
+      continue
+    }
+    if (line.startsWith("> ")) {
+      flushPara()
+      flushList()
+      quote.push(line.slice(2).trim())
+      continue
+    }
     if (!line.trim()) {
       flush()
       continue
     }
+    flushList()
+    flushQuote()
     para.push(line)
   }
   flush()

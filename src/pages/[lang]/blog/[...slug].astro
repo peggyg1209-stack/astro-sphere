@@ -2,12 +2,11 @@
 import { type CollectionEntry, getCollection } from "astro:content"
 import BlogPostPage from "@views/BlogPostPage.astro"
 import { PREFIXED_LOCALES } from "@i18n/config"
-import { isStaging } from "@lib/env"
 
 export async function getStaticPaths() {
-  if (!isStaging()) return []
-
-  const posts = await getCollection("blog")
+  const posts = (await getCollection("blog")).filter(
+    (post) => !post.data.draft && post.data.pinned,
+  )
   return PREFIXED_LOCALES.flatMap((lang) =>
     posts.map((post) => ({
       params: { lang, slug: post.slug },
