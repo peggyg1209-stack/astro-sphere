@@ -26,6 +26,7 @@ const isStaging = resolveStaging()
 
 export default defineConfig({
   site: "https://astro-sphere-demo.vercel.app",
+  site: 'https://junarkpreview.pages.dev',
   trailingSlash: "always",
   server: {
     host: "127.0.0.1",
